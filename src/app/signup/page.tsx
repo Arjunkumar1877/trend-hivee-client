@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useSignup } from '@/api/mutations/useSignup';
 
 
 const signupSchema = z
@@ -32,11 +33,16 @@ export default function Signup() {
         resolver: zodResolver(signupSchema),
     });
 
-
+const signup = useSignup()
 
     const onSubmit = async (data: any) => {
         console.log(data)
-        // mutation.mutate(data);
+       const res = await signup.mutateAsync({
+        name: data.name,
+        email: data.email,
+        password: data.password
+       })
+  console.log(res)
     };
 
     return (
