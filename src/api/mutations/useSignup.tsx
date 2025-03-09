@@ -7,7 +7,7 @@ export function useSignup() {
   return useMutation({
     mutationFn: async (data: any) => {
       const res = await api.post('/auth/signup', data)
-      return res.data 
+      return res.data
     },
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ['user'] })

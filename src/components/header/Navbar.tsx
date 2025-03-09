@@ -1,7 +1,7 @@
-import React from 'react';
-import Top from './Top';
-import Bottom from './Bottom';
-import Center from './Center';
+import React from 'react'
+import Top from './Top'
+import Bottom from './Bottom'
+import Center from './Center'
 
 function Navbar() {
   return (
@@ -10,7 +10,7 @@ function Navbar() {
       <Center />
       <Bottom />
     </div>
-  );
+  )
 }
 
-export default Navbar;
+export default Navbar
