@@ -11,6 +11,7 @@ const signupSchema = z
   .object({
     name: z.string().min(2, 'Name must be at least 2 characters'),
     email: z.string().email('Invalid email'),
+    phoneNumber: z.string().min(10, 'Phone number must be at least 10 digits'),
     password: z.string().min(6, 'Password must be at least 6 characters'),
     confirmPassword: z.string(),
   })
@@ -40,13 +41,17 @@ export default function Signup() {
       name: data.name,
       email: data.email,
       password: data.password,
+      phoneNumber: data.phoneNumber
     })
-    console.log(res)
+    
+    if(res){
+      console.log(res)
+    }
   }
 
   return (
-    <div className="w-full h-full  flex flex-col justify-center items-center">
-      <div className="p-10  flex flex-col justify-center items-center gap-3">
+    <div className="min-w-full h-full  flex flex-col justify-center items-center overflow-y-scroll">
+      <div className="px-10 min-w-full flex flex-col justify-center items-center gap-3">
         <h1 className="text-3xl text-[#5F6A48] ">SIGN UP</h1>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -60,6 +65,8 @@ export default function Signup() {
             {errors.name && <p className="text-red-500 text-sm">{errors.name.message}</p>}
           </div>
 
+    
+
           <div>
             <Label className="text-md text-[#5F6A48]">Email</Label>
             <Input
@@ -69,6 +76,17 @@ export default function Signup() {
               placeholder="you@example.com"
             />
             {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
+          </div>
+
+          <div>
+            <Label className="text-md text-[#5F6A48]">Phone</Label>
+            <Input
+              type="phoneNumber"
+              {...register('phoneNumber')}
+              className="rounded-none border-[#5F6A48]"
+              placeholder="Enter you phone."
+            />
+            {errors.phoneNumber && <p className="text-red-500 text-sm">{errors.phoneNumber.message}</p>}
           </div>
 
           <div>
