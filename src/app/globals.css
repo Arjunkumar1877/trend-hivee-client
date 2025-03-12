@@ -122,5 +122,12 @@
   }
   body {
     @apply bg-background text-foreground;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    padding-top: 150px; 
   }
 }
+
+
+
