@@ -1,0 +1,80 @@
+'use client'
+import { z } from 'zod'
+import { useForm } from 'react-hook-form'
+import { Button } from '@/components/ui/button'
+import { Label } from '@/components/ui/label'
+import { Input } from '@/components/ui/input'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useSignup } from '@/api/mutations/useSignup'
+
+const signupSchema = z.object({
+  email: z.string().email('Invalid email'),
+  password: z.string().min(6, 'Password must be at least 6 characters'),
+})
+
+export default function Signup() {
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors, isSubmitting },
+  } = useForm({
+    resolver: zodResolver(signupSchema),
+  })
+
+  const signup = useSignup()
+
+  const onSubmit = async (data: any) => {
+    console.log(data)
+    const res = await signup.mutateAsync({
+      name: data.name,
+      email: data.email,
+      password: data.password,
+      phoneNumber: data.phoneNumber,
+    })
+
+    if (res) {
+      console.log(res)
+    }
+  }
+
+  return (
+    <div className="min-w-full h-full flex flex-col justify-center items-center">
+      <div className="px-10 min-w-full flex flex-col justify-center items-center gap-3">
+        <h1 className="text-3xl text-[#5F6A48] ">SIGN IN</h1>
+
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          <div>
+            <Label className="text-md text-[#5F6A48]">Email</Label>
+            <Input
+              type="email"
+              {...register('email')}
+              className="rounded-none border-[#5F6A48]"
+              placeholder="you@example.com"
+            />
+            {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
+          </div>
+
+          <div>
+            <Label className="text-md text-[#5F6A48]">Password</Label>
+            <Input
+              type="password"
+              {...register('password')}
+              className="rounded-none border-[#5F6A48]"
+              placeholder="••••••••"
+            />
+            {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
+          </div>
+
+          <Button
+            type="submit"
+            className="w-full bg-[#5F6A48] text-white rounded-none"
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? 'Logging In...' : 'Login'}
+          </Button>
+        </form>
+      </div>
+    </div>
+  )
+}
