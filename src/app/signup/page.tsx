@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useSignup } from '@/api/mutations/useSignup'
 import { useRouter } from 'next/navigation'
+import { UserType } from '@/lib/types'
 
 const signupSchema = z
   .object({
@@ -35,20 +36,19 @@ export default function Signup() {
   })
 
   const signup = useSignup()
-  const router = useRouter();
+  const router = useRouter()
 
-  const onSubmit = async (data: any) => {
-    console.log(data)
-    const res = await signup.mutateAsync({
-      name: data.name,
-      email: data.email,
-      password: data.password,
-      phoneNumber: data.phoneNumber
-    })
-    
-    if(res){
-      console.log(res)
-    }
+  const onSubmit = async (data: UserType) => {
+try {
+  console.log(data)
+  const res = await signup.mutateAsync(data)
+
+  if (res) {
+    console.log(res)
+  }
+} catch (error) {
+  console.log(error)
+}
   }
 
   return (
@@ -66,8 +66,6 @@ export default function Signup() {
             />
             {errors.name && <p className="text-red-500 text-sm">{errors.name.message}</p>}
           </div>
-
-    
 
           <div>
             <Label className="text-md text-[#5F6A48]">Email</Label>
@@ -88,7 +86,9 @@ export default function Signup() {
               className="rounded-none border-[#5F6A48]"
               placeholder="Enter you phone."
             />
-            {errors.phoneNumber && <p className="text-red-500 text-sm">{errors.phoneNumber.message}</p>}
+            {errors.phoneNumber && (
+              <p className="text-red-500 text-sm">{errors.phoneNumber.message}</p>
+            )}
           </div>
 
           <div>
@@ -116,7 +116,6 @@ export default function Signup() {
           </div>
 
           <Button
-            onClick={()=> router.push('/add-details')}
             type="submit"
             className="w-full bg-[#5F6A48] text-white rounded-none"
             disabled={isSubmitting}

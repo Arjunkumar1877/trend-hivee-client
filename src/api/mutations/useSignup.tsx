@@ -7,6 +7,7 @@ export function useSignup() {
 
   return useMutation({
     mutationFn: async (data: UserType) => {
+      console.log(data)
       const res = await api.post('/auth/signup', data)
       return res.data
     },

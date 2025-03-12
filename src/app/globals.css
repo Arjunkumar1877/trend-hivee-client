@@ -125,9 +125,6 @@
     display: flex;
     flex-direction: column;
     overflow-y: auto;
-    padding-top: 150px; 
+    padding-top: 150px;
   }
 }
-
-
-

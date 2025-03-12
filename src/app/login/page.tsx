@@ -7,12 +7,10 @@ import { Input } from '@/components/ui/input'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useSignup } from '@/api/mutations/useSignup'
 
-const signupSchema = z
-  .object({
-    email: z.string().email('Invalid email'),
-    password: z.string().min(6, 'Password must be at least 6 characters'),
-  })
-  
+const signupSchema = z.object({
+  email: z.string().email('Invalid email'),
+  password: z.string().min(6, 'Password must be at least 6 characters'),
+})
 
 export default function Signup() {
   const {
@@ -32,10 +30,10 @@ export default function Signup() {
       name: data.name,
       email: data.email,
       password: data.password,
-      phoneNumber: data.phoneNumber
+      phoneNumber: data.phoneNumber,
     })
-    
-    if(res){
+
+    if (res) {
       console.log(res)
     }
   }
@@ -46,9 +44,6 @@ export default function Signup() {
         <h1 className="text-3xl text-[#5F6A48] ">SIGN IN</h1>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
- 
-    
-
           <div>
             <Label className="text-md text-[#5F6A48]">Email</Label>
             <Input
@@ -60,7 +55,6 @@ export default function Signup() {
             {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
           </div>
 
-
           <div>
             <Label className="text-md text-[#5F6A48]">Password</Label>
             <Input
@@ -71,8 +65,6 @@ export default function Signup() {
             />
             {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
           </div>
-
- 
 
           <Button
             type="submit"
