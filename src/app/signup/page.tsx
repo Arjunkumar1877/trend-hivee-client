@@ -8,6 +8,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useSignup } from '@/api/mutations/useSignup'
 import { useRouter } from 'next/navigation'
 import { UserType } from '@/lib/types'
+import { toast } from 'sonner'
 
 const signupSchema = z
   .object({
@@ -29,7 +30,6 @@ export default function Signup() {
   const {
     register,
     handleSubmit,
-    setError,
     formState: { errors, isSubmitting },
   } = useForm({
     resolver: zodResolver(signupSchema),
@@ -39,17 +39,21 @@ export default function Signup() {
   const router = useRouter()
 
   const onSubmit = async (data: UserType) => {
-try {
-  console.log(data)
-  const res = await signup.mutateAsync(data)
+    try {
+      console.log(data)
+      const res = await signup.mutateAsync(data)
 
-  if (res) {
-    console.log(res)
+      toast(res.message)
+      if (!res.success) return
+      console.log(res)
+      router.push('/confirm-email');
+
+    } catch (error) {
+      console.log(error)
+    }
   }
-} catch (error) {
-  console.log(error)
-}
-  }
+
+
 
   return (
     <div className="min-w-full h-full  flex flex-col justify-center items-center overflow-y-scroll">
