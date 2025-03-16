@@ -5,7 +5,11 @@ import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useSignup } from '@/api/mutations/useSignup'
+import { useFirebaseLogin } from '@/api/mutations/useLogin'
+import { toast } from 'sonner'
+import { getFirebaseErrorMessage } from '@/lib/error'
+import { useState } from 'react'
+import { EyeOff, Eye } from 'lucide-react'
 
 const signupSchema = z.object({
   email: z.string().email('Invalid email'),
@@ -13,28 +17,29 @@ const signupSchema = z.object({
 })
 
 export default function Signup() {
+
+    const [showPassword, setShowPassword] = useState(false)  
+    const togglePasswordVisibility = () => setShowPassword((prev) => !prev)
+  
   const {
     register,
     handleSubmit,
-    setError,
     formState: { errors, isSubmitting },
   } = useForm({
     resolver: zodResolver(signupSchema),
   })
 
-  const signup = useSignup()
+  const login = useFirebaseLogin()
 
-  const onSubmit = async (data: any) => {
-    console.log(data)
-    const res = await signup.mutateAsync({
-      name: data.name,
-      email: data.email,
-      password: data.password,
-      phoneNumber: data.phoneNumber,
-    })
-
-    if (res) {
-      console.log(res)
+  const onSubmit = async (data: {email: string, password: string}) => {
+    const { email, password} = data;
+    try {
+      await login.mutateAsync({ email, password });
+      toast('Login successful!');
+    } catch (error) {
+  
+      const message = getFirebaseErrorMessage(error as any);
+      toast.error(message);
     }
   }
 
@@ -55,14 +60,24 @@ export default function Signup() {
             {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
           </div>
 
-          <div>
+
+          <div className="relative">
             <Label className="text-md text-[#5F6A48]">Password</Label>
-            <Input
-              type="password"
-              {...register('password')}
-              className="rounded-none border-[#5F6A48]"
-              placeholder="••••••••"
-            />
+            <div className="relative">
+              <Input
+                type={showPassword ? 'text' : 'password'}
+                {...register('password')}
+                className="rounded-none border-[#5F6A48] pr-10"
+                placeholder="••••••••"
+              />
+              <button
+                type="button"
+                onClick={togglePasswordVisibility}
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"
+              >
+                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+              </button>
+            </div>
             {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
           </div>
 
