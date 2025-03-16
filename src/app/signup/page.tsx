@@ -40,13 +40,14 @@ export default function Signup() {
 
   const onSubmit = async (data: UserType) => {
     try {
-      console.log(data)
       const res = await signup.mutateAsync(data)
+      console.log(res)
 
       toast(res.message)
       if (!res.success) return
       console.log(res)
-      router.push('/confirm-email');
+      toast.error(res.message)
+      router.push(`/confirm-email?userId=${res.userId}`);
 
     } catch (error) {
       console.log(error)
