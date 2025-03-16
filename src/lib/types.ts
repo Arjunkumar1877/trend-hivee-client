@@ -5,6 +5,7 @@ export type UserType = {
   password?: string
   firebaseId?: string
   phoneNumber?: string
+  isEmailVerified?: boolean
   addressess?: UserAddress[]
 }
 

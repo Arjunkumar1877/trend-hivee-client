@@ -1,5 +1,6 @@
-import { initializeApp } from 'firebase/app'
-import { getAnalytics } from 'firebase/analytics'
+import { initializeApp, getApps } from '@firebase/app'
+import { getAuth } from '@firebase/auth'
+import { getStorage } from '@firebase/storage'
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -12,4 +13,9 @@ const firebaseConfig = {
 }
 
 export const app = initializeApp(firebaseConfig)
-const analytics = getAnalytics(app)
+const isTest = process.env.NODE_ENV === 'test'
+export const firebaseAuth = isTest ? ({} as ReturnType<typeof getAuth>) : getAuth(app)
+export const firebaseStorage = isTest
+  ? ({} as ReturnType<typeof getStorage>)
+  : getStorage(app)
+
