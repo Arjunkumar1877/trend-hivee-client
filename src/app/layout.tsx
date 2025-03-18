@@ -5,7 +5,8 @@ import { QueryClient } from '@tanstack/react-query'
 import QueryProvider from '@/lib/QueryProvider'
 import Navbar from '@/components/header/Navbar'
 import { Toaster } from 'sonner'
-
+import Footer from '@/components/footer/Footer'
+import {Spacer} from "@heroui/spacer";
 const geistSans = Geist({
   variable: '--font-geist-sans',
   subsets: ['latin'],
@@ -33,6 +34,8 @@ export default function RootLayout({
           <Navbar />
           <Toaster />
           {children}
+          <Spacer y={10} />
+          <Footer />
         </QueryProvider>
       </body>
     </html>
