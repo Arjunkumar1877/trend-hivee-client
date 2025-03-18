@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import Image from "next/image";
 import { FaInstagram, FaTiktok, FaPinterest } from "react-icons/fa";
 
 export default function Footer() {
@@ -35,26 +36,26 @@ export default function Footer() {
         </div>
 
         <div className="flex items-center justify-center md:justify-end">
-          <img src="/amal-logo.png" alt="Amal Logo" className="h-24" />
+          <Image width={30} height={30} src="/logos/logo.svg" alt="Logo" className="h-24" />
         </div>
       </div>
 
       <div className="mt-12 border-t pt-8 text-center">
-        <div className="flex justify-center space-x-4 mb-6">
-          <img src="/visa.png" alt="Visa" className="h-6" />
-          <img src="/mastercard.png" alt="MasterCard" className="h-6" />
-          <img src="/maestro.png" alt="Maestro" className="h-6" />
-          <img src="/googlepay.png" alt="Google Pay" className="h-6" />
-          <img src="/applepay.png" alt="Apple Pay" className="h-6" />
+        <div className="flex justify-center space-x-5 mb-6">
+          <Image width={30} height={30} src="/logos/visa.svg" alt="Visa"  />
+          <Image width={30} height={30} src="/logos/master-card.svg" alt="MasterCard"  />
+          <Image width={30} height={30} src="/logos/maestro.svg" alt="Maestro"  />
+          <Image width={30} height={30} src="/logos/g-pay.svg" alt="Google Pay"  />
+          <Image width={30} height={30} src="/logos/apple.svg" alt="Apple Pay"  />
         </div>
 
         <div className="flex justify-center space-x-4 mb-4">
-          <FaInstagram size={24} />
-          <FaTiktok size={24} />
-          <FaPinterest size={24} />
+          <FaInstagram className="text-[#5C624A]" size={24} />
+          <FaTiktok className="text-[#5C624A]" size={24} />
+          <FaPinterest className="text-[#5C624A]" size={24} />
         </div>
 
-        <p className="text-sm text-gray-600">© 2024 AMAL</p>
+        <p className="text-sm text-[#5C624A]">© 2024 AMAL</p>
       </div>
     </div>
   );
