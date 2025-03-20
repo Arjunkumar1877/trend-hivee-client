@@ -1,19 +1,18 @@
 import { User } from '@firebase/auth'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
-import { UserType } from './types'
 
 export type AuthState = {
   status: 'loading' | 'logged_in' | 'logout_triggered' | 'logged_out'
   firebaseUser?: User
-  currentUser?: UserType
+  currentUser?: any
 }
 
 export type LogoutSource = 'user_changed_password' | 'user_changed_email' | 'user_click'
 
 export type AuthControl = AuthState & {
   actions: {
-    loggedInUserReceived(currentUser: UserType): void
+    loggedInUserReceived(currentUser: any): void
     loggedInFirebaseUserRecieved(firebaseUser: User): void
     userLoggedOut(): void
   }
