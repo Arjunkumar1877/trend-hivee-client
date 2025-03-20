@@ -12,17 +12,19 @@ import { useState } from 'react'
 import { EyeOff, Eye } from 'lucide-react'
 import { useCheckUserIsVerified } from '@/api/mutations/useCheckUserIsVerified'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
+import { useAuthControl } from '@/lib/control'
 
 const signupSchema = z.object({
   email: z.string().email('Invalid email'),
   password: z.string().min(6, 'Password must be at least 6 characters'),
 })
 
-export default function Signup() {
-    const router = useRouter()
-    const [showPassword, setShowPassword] = useState(false)  
-    const togglePasswordVisibility = () => setShowPassword((prev) => !prev)
-  
+export default function Login() {
+    const router = useRouter();
+    const [showPassword, setShowPassword] = useState(false);
+    const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
+    const authControl = useAuthControl()  
   const {
     register,
     handleSubmit,
@@ -44,9 +46,17 @@ export default function Signup() {
         toast.error('Login failed. Please try again.');
         return;
       }
+
+      authControl.actions.loggedInFirebaseUserRecieved(res);
+      
   
       const response = await checkUser.mutateAsync({ firebaseId: res.uid });
-  
+
+      if(!response.verified){
+       authControl.actions.userLoggedOut()  
+      }
+
+      authControl.actions.loggedInUserReceived(response.data)
       router.push(response.verified ? '/' : response.data);
       toast(response.message || (response.verified ? 'Welcome back!' : 'Verification required.'));
     } catch (error) {
@@ -100,6 +110,13 @@ export default function Signup() {
           >
             {isSubmitting ? 'Logging In...' : 'Login'}
           </Button>
+
+
+         <Link href='/forget-password'>
+          Forget password
+         </Link>
+
+          
         </form>
       </div>
     </div>
