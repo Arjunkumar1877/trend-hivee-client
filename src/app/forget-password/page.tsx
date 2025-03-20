@@ -7,6 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Label } from '@radix-ui/react-menubar'
 import React from 'react'
 import { useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 import { z } from 'zod'
 
 const ForgetPassword = () => {
@@ -23,16 +24,15 @@ const ForgetPassword = () => {
 
   const onSubmit = async (value: { email: string }) => {
     if (!value.email) {
-      alert('Please enter your email address.')
+      toast('Please enter your email address.')
       return
     }
 
     try {
       await sendPasswordResetEmail(firebaseAuth, value.email)
-      alert('Password reset email sent! Please check your inbox.')
+      toast('Password reset email sent! Please check your inbox.')
     } catch (error) {
       console.error('Error sending password reset email:', error)
-      alert(error)
     }
   }
   return (
