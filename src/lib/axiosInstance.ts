@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { toast } from 'sonner'
+import { getFirebaseUserWithToken } from './firebase'
 
 const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
@@ -7,18 +8,19 @@ const api = axios.create({
 })
 
 api.interceptors.request.use(
-  (config) => {
-    const token = localStorage.getItem('token')
-
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`
+  async (config) => {
+    try {
+      const { token } = await getFirebaseUserWithToken()
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`
+      }
+    } catch (error) {
+      console.error('Error fetching Firebase token:', error)
     }
 
     return config
   },
-  (error) => {
-    return Promise.reject(error)
-  }
+  (error) => Promise.reject(error)
 )
 
 api.interceptors.response.use(

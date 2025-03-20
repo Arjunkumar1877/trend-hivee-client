@@ -20,13 +20,10 @@ const signupSchema = z
     password: z.string().min(6, 'Password must be at least 6 characters'),
     confirmPassword: z.string(),
   })
-  .refine(
-    (data) => data.password === data.confirmPassword,
-    {
-      message: 'Passwords do not match',
-      path: ['confirmPassword'],
-    }
-  )
+  .refine((data) => data.password === data.confirmPassword, {
+    message: 'Passwords do not match',
+    path: ['confirmPassword'],
+  })
 
 export default function Signup() {
   const {
@@ -54,7 +51,6 @@ export default function Signup() {
       if (!res.success) return
       toast.error(res.message)
       router.push(`/confirm-email?userId=${res.userId}`)
-
     } catch (error) {
       console.log(error)
     }

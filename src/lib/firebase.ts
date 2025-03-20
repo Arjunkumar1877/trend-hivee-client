@@ -1,5 +1,5 @@
 import { initializeApp, getApps } from '@firebase/app'
-import { getAuth } from '@firebase/auth'
+import { getAuth, onAuthStateChanged, User } from '@firebase/auth'
 import { getStorage } from '@firebase/storage'
 
 const firebaseConfig = {
@@ -13,9 +13,28 @@ const firebaseConfig = {
 }
 
 export const app = initializeApp(firebaseConfig)
-const isTest = process.env.NODE_ENV === 'test'
-export const firebaseAuth = isTest ? ({} as ReturnType<typeof getAuth>) : getAuth(app)
-export const firebaseStorage = isTest
-  ? ({} as ReturnType<typeof getStorage>)
-  : getStorage(app)
+export const firebaseAuth = getAuth(app)
+export const firebaseStorage = getStorage(app)
+export async function getFirebaseUserWithToken(): Promise<{ user: User; token: string }> {
+  return new Promise((resolve, reject) => {
+    if (firebaseAuth.currentUser) {
+      firebaseAuth.currentUser
+        .getIdToken(true)
+        .then((token) => {
+          resolve({ user: firebaseAuth.currentUser!, token })
+        })
+        .catch(reject)
+      return
+    }
 
+    const unsubscribe = onAuthStateChanged(firebaseAuth, async (user) => {
+      unsubscribe()
+      if (!user) {
+        reject(new Error())
+        return
+      }
+      const token = await user.getIdToken(true)
+      resolve({ user, token })
+    })
+  })
+}

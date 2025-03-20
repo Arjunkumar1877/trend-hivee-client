@@ -15,6 +15,7 @@ const profileSchema = z.object({
   city: z.string().optional(),
   state: z.string().optional(),
   zipCode: z.string().min(5, 'ZIP code must be at least 5 characters'),
+  country: z.string().min(2, 'Country must be included'),
   isDefault: z.boolean().optional(),
 })
 
@@ -33,20 +34,20 @@ export default function UserProfile() {
   const token = searchParams.get('token') || ''
 
   const onSubmit = async (data: UserAddress) => {
-try {
-    console.log('Submitting data:', data)
+    try {
+      console.log('Submitting data:', data)
 
-    const res = await editDetails.mutateAsync({
-      token,
-      userDetails: data,
-    })
+      const res = await editDetails.mutateAsync({
+        token,
+        userDetails: data,
+      })
 
-    if (res) {
-      console.log('Response:', res)
+      if (res) {
+        console.log('Response:', res)
+      }
+    } catch (error) {
+      console.log(error)
     }
-} catch (error) {
-    console.log(error)
-}
   }
 
   return (
@@ -67,6 +68,17 @@ try {
             {errors.phoneNumber && (
               <p className="text-red-500 text-sm">{errors.phoneNumber.message}</p>
             )}
+          </div>
+
+          {/* Country */}
+          <div>
+            <Label className="text-md text-[#5F6A48]">Country</Label>
+            <Input
+              className="rounded-none border-[#5F6A48]"
+              type="text"
+              {...register('country')}
+              placeholder="Country"
+            />
           </div>
 
           {/* Address */}

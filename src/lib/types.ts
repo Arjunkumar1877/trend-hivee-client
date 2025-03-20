@@ -15,6 +15,7 @@ export type UserAddress = {
   city?: string
   state?: string
   zipCode?: string
+  country: string
   phoneNumber?: string
   isDefault?: boolean
 }
