@@ -14,6 +14,7 @@ import { useCheckUserIsVerified } from '@/api/mutations/useCheckUserIsVerified'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useAuthControl } from '@/lib/control'
+import PageLayout from '@/components/pageLayout/PageLayout'
 
 const signupSchema = z.object({
   email: z.string().email('Invalid email'),
@@ -65,6 +66,8 @@ export default function Login() {
   }
 
   return (
+    <PageLayout footer>
+
     <div className="min-w-full h-full flex flex-col justify-center items-center">
       <div className="px-10 min-w-full flex flex-col justify-center items-center gap-3">
         <h1 className="text-3xl text-[#5F6A48] ">SIGN IN</h1>
@@ -113,5 +116,6 @@ export default function Login() {
         </form>
       </div>
     </div>
+    </PageLayout>
   )
 }

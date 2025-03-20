@@ -1,4 +1,5 @@
 'use client'
+import PageLayout from '@/components/pageLayout/PageLayout'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { firebaseAuth } from '@/lib/firebase'
@@ -37,6 +38,8 @@ const ForgetPassword = () => {
     }
   }
   return (
+    <PageLayout footer>
+
     <div className="min-w-full h-full flex flex-col justify-center items-center">
       <div className="px-10 min-w-full flex flex-col justify-center items-center gap-3">
         <h1 className="text-3xl text-[#5F6A48]">User Profile</h1>
@@ -63,6 +66,7 @@ const ForgetPassword = () => {
         </form>
       </div>
     </div>
+    </PageLayout>
   )
 }
 

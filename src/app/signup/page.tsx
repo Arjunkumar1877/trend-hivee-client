@@ -11,6 +11,7 @@ import { useSignup } from '@/api/mutations/useSignup'
 import { useRouter } from 'next/navigation'
 import { UserType } from '@/lib/types'
 import { toast } from 'sonner'
+import PageLayout from '@/components/pageLayout/PageLayout'
 
 const signupSchema = z
   .object({
@@ -57,6 +58,8 @@ export default function Signup() {
   }
 
   return (
+    <PageLayout footer>
+
     <div className="min-w-full h-full flex flex-col justify-center items-center overflow-y-scroll">
       <div className="px-10 min-w-full flex flex-col justify-center items-center gap-3">
         <h1 className="text-3xl text-[#5F6A48]">SIGN UP</h1>
@@ -148,5 +151,6 @@ export default function Signup() {
         </form>
       </div>
     </div>
+    </PageLayout>
   )
 }

@@ -31,11 +31,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased relative`}>
         <QueryProvider>
-          <Navbar />
           <Toaster />
           {children}
-          <Spacer y={10} />
-          <Footer />
+       
         </QueryProvider>
       </body>
     </html>

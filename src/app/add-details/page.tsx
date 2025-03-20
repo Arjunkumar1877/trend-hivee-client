@@ -8,6 +8,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useUpdateUserDetails } from '@/api/mutations/useUpdateUserDetails'
 import { UserAddress } from '@/lib/types'
 import { useRouter, useSearchParams } from 'next/navigation'
+import PageLayout from '@/components/pageLayout/PageLayout'
 
 const profileSchema = z.object({
   phoneNumber: z.string().min(10, 'Phone number must be at least 10 digits'),
@@ -51,7 +52,8 @@ export default function UserProfile() {
   }
 
   return (
-    <div className="min-w-full h-full flex flex-col justify-center items-center">
+    <PageLayout footer>
+  <div className="min-w-full h-full flex flex-col justify-center items-center">
       <div className="px-10 min-w-full flex flex-col justify-center items-center gap-3">
         <h1 className="text-3xl text-[#5F6A48]">User Profile</h1>
 
@@ -143,5 +145,7 @@ export default function UserProfile() {
         </form>
       </div>
     </div>
+    </PageLayout>
+  
   )
 }
