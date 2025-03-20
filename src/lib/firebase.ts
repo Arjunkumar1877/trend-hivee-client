@@ -13,9 +13,5 @@ const firebaseConfig = {
 }
 
 export const app = initializeApp(firebaseConfig)
-const isTest = process.env.NODE_ENV === 'test'
-export const firebaseAuth = isTest ? ({} as ReturnType<typeof getAuth>) : getAuth(app)
-export const firebaseStorage = isTest
-  ? ({} as ReturnType<typeof getStorage>)
-  : getStorage(app)
-
+export const firebaseAuth =  getAuth(app)
+export const firebaseStorage =  getStorage(app)
