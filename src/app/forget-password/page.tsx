@@ -24,15 +24,16 @@ const ForgetPassword = () => {
 
   const onSubmit = async (value: { email: string }) => {
     if (!value.email) {
-      toast('Please enter your email address.')
-      return
+      alert("Please enter your email address.");
+      return;
     }
 
     try {
-      await sendPasswordResetEmail(firebaseAuth, value.email)
-      toast('Password reset email sent! Please check your inbox.')
+      await sendPasswordResetEmail(firebaseAuth, value.email);
+      alert("Password reset email sent! Please check your inbox.");
     } catch (error) {
-      console.error('Error sending password reset email:', error)
+      console.error("Error sending password reset email:", error);
+      alert(error);
     }
   }
   return (
