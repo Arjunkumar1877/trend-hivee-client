@@ -1,7 +1,7 @@
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import Image from "next/image";
-import { FaInstagram, FaTiktok, FaPinterest } from "react-icons/fa";
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import Image from 'next/image'
+import { FaInstagram, FaTiktok, FaPinterest } from 'react-icons/fa'
 
 export default function Footer() {
   return (
@@ -10,7 +10,10 @@ export default function Footer() {
         <div>
           <h3 className="text-2xl font-semibold mb-4 text-[#5C624A]">Sign up to our Newsletter</h3>
           <div className="flex items-center space-x-4">
-            <Input placeholder="Enter your email" className="w-full rounded-none md:w-64 border-1 border-[#5C624A]" />
+            <Input
+              placeholder="Enter your email"
+              className="w-full rounded-none md:w-64 border-1 border-[#5C624A]"
+            />
             <Button className="bg-[#5C624A] rounded-none text-white">SUBSCRIBE</Button>
           </div>
         </div>
@@ -42,11 +45,11 @@ export default function Footer() {
 
       <div className="mt-12 border-t pt-8 text-center">
         <div className="flex justify-center space-x-5 mb-6">
-          <Image width={30} height={30} src="/logos/visa.svg" alt="Visa"  />
-          <Image width={30} height={30} src="/logos/master-card.svg" alt="MasterCard"  />
-          <Image width={30} height={30} src="/logos/maestro.svg" alt="Maestro"  />
-          <Image width={30} height={30} src="/logos/g-pay.svg" alt="Google Pay"  />
-          <Image width={30} height={30} src="/logos/apple.svg" alt="Apple Pay"  />
+          <Image width={30} height={30} src="/logos/visa.svg" alt="Visa" />
+          <Image width={30} height={30} src="/logos/master-card.svg" alt="MasterCard" />
+          <Image width={30} height={30} src="/logos/maestro.svg" alt="Maestro" />
+          <Image width={30} height={30} src="/logos/g-pay.svg" alt="Google Pay" />
+          <Image width={30} height={30} src="/logos/apple.svg" alt="Apple Pay" />
         </div>
 
         <div className="flex justify-center space-x-4 mb-4">
@@ -58,5 +61,5 @@ export default function Footer() {
         <p className="text-sm text-[#5C624A]">© 2024 AMAL</p>
       </div>
     </div>
-  );
+  )
 }

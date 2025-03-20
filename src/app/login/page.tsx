@@ -21,10 +21,10 @@ const signupSchema = z.object({
 })
 
 export default function Login() {
-    const router = useRouter();
-    const [showPassword, setShowPassword] = useState(false);
-    const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
-    const authControl = useAuthControl()  
+  const router = useRouter()
+  const [showPassword, setShowPassword] = useState(false)
+  const togglePasswordVisibility = () => setShowPassword((prev) => !prev)
+  const authControl = useAuthControl()
   const {
     register,
     handleSubmit,
@@ -35,36 +35,35 @@ export default function Login() {
 
   const login = useFirebaseLogin()
   const checkUser = useCheckUserIsVerified()
-  
+
   const onSubmit = async (data: { email: string; password: string }) => {
-    const { email, password } = data;
-  
+    const { email, password } = data
+
     try {
-      const res = await login.mutateAsync({ email, password });
-  
+      const res = await login.mutateAsync({ email, password })
+
       if (!res?.uid) {
-        toast.error('Login failed. Please try again.');
-        return;
+        toast.error('Login failed. Please try again.')
+        return
       }
 
-      authControl.actions.loggedInFirebaseUserRecieved(res);
-      
-  
-      const response = await checkUser.mutateAsync({ firebaseId: res.uid });
+      authControl.actions.loggedInFirebaseUserRecieved(res)
 
-      if(!response.verified){
-       authControl.actions.userLoggedOut()  
+      const response = await checkUser.mutateAsync({ firebaseId: res.uid })
+
+      if (!response.verified) {
+        authControl.actions.userLoggedOut()
       }
 
       authControl.actions.loggedInUserReceived(response.data)
-      router.push(response.verified ? '/' : response.data);
-      toast(response.message || (response.verified ? 'Welcome back!' : 'Verification required.'));
+      router.push(response.verified ? '/' : response.data)
+      toast(response.message || (response.verified ? 'Welcome back!' : 'Verification required.'))
     } catch (error) {
-      const message = getFirebaseErrorMessage(error as any);
-      toast.error(message);
+      const message = getFirebaseErrorMessage(error as any)
+      toast.error(message)
     }
-  };
-  
+  }
+
   return (
     <div className="min-w-full h-full flex flex-col justify-center items-center">
       <div className="px-10 min-w-full flex flex-col justify-center items-center gap-3">
@@ -81,7 +80,6 @@ export default function Login() {
             />
             {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
           </div>
-
 
           <div className="relative">
             <Label className="text-md text-[#5F6A48]">Password</Label>
@@ -111,12 +109,7 @@ export default function Login() {
             {isSubmitting ? 'Logging In...' : 'Login'}
           </Button>
 
-
-         <Link href='/forget-password'>
-          Forget password
-         </Link>
-
-          
+          <Link href="/forget-password">Forget password</Link>
         </form>
       </div>
     </div>

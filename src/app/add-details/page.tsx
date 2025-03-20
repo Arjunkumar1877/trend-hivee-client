@@ -34,20 +34,20 @@ export default function UserProfile() {
   const token = searchParams.get('token') || ''
 
   const onSubmit = async (data: UserAddress) => {
-try {
-    console.log('Submitting data:', data)
+    try {
+      console.log('Submitting data:', data)
 
-    const res = await editDetails.mutateAsync({
-      token,
-      userDetails: data,
-    })
+      const res = await editDetails.mutateAsync({
+        token,
+        userDetails: data,
+      })
 
-    if (res) {
-      console.log('Response:', res)
+      if (res) {
+        console.log('Response:', res)
+      }
+    } catch (error) {
+      console.log(error)
     }
-} catch (error) {
-    console.log(error)
-}
   }
 
   return (
@@ -70,8 +70,8 @@ try {
             )}
           </div>
 
-   {/* Country */}
-   <div>
+          {/* Country */}
+          <div>
             <Label className="text-md text-[#5F6A48]">Country</Label>
             <Input
               className="rounded-none border-[#5F6A48]"
