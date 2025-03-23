@@ -10,12 +10,12 @@ type LayoutProps = {
 }
 const PageLayout: FC<LayoutProps> = ({ children, footer, header = true }) => {
     return (
-        <>
+        <div className='relative'>
             {header && <Navbar />}
             {children}
             <Spacer y={10} />
             {footer && <Footer />}
-        </>
+        </div>
     )
 }
 

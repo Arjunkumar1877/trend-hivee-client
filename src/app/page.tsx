@@ -1,12 +1,9 @@
+import Home from '@/components/home/Home'
 import { Button } from '@/components/ui/button'
 import Image from 'next/image'
 
-export default function Home() {
+export default function Page() {
   return (
-    <div className="">
-      <Button className="cursor-pointer" type="button">
-        Button
-      </Button>
-    </div>
+   <Home />
   )
 }
