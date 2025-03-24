@@ -59,98 +59,97 @@ export default function Signup() {
 
   return (
     <PageLayout footer>
+      <div className="min-w-full h-full flex flex-col justify-center items-center overflow-y-scroll">
+        <div className="px-10 min-w-full flex flex-col justify-center items-center gap-3">
+          <h1 className="text-3xl text-[#5F6A48]">SIGN UP</h1>
 
-    <div className="min-w-full h-full flex flex-col justify-center items-center overflow-y-scroll">
-      <div className="px-10 min-w-full flex flex-col justify-center items-center gap-3">
-        <h1 className="text-3xl text-[#5F6A48]">SIGN UP</h1>
-
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          <div>
-            <Label className="text-md text-[#5F6A48]">Name</Label>
-            <Input
-              {...register('name')}
-              className="rounded-none border-[#5F6A48]"
-              placeholder="Your name"
-            />
-            {errors.name && <p className="text-red-500 text-sm">{errors.name.message}</p>}
-          </div>
-
-          <div>
-            <Label className="text-md text-[#5F6A48]">Email</Label>
-            <Input
-              type="email"
-              {...register('email')}
-              className="rounded-none border-[#5F6A48]"
-              placeholder="you@example.com"
-            />
-            {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
-          </div>
-
-          <div>
-            <Label className="text-md text-[#5F6A48]">Phone</Label>
-            <Input
-              type="tel"
-              {...register('phoneNumber')}
-              className="rounded-none border-[#5F6A48]"
-              placeholder="Enter your phone number"
-            />
-            {errors.phoneNumber && (
-              <p className="text-red-500 text-sm">{errors.phoneNumber.message}</p>
-            )}
-          </div>
-
-          <div className="relative">
-            <Label className="text-md text-[#5F6A48]">Password</Label>
-            <div className="relative">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            <div>
+              <Label className="text-md text-[#5F6A48]">Name</Label>
               <Input
-                type={showPassword ? 'text' : 'password'}
-                {...register('password')}
-                className="rounded-none border-[#5F6A48] pr-10"
-                placeholder="••••••••"
+                {...register('name')}
+                className="rounded-none border-[#5F6A48]"
+                placeholder="Your name"
               />
-              <button
-                type="button"
-                onClick={togglePasswordVisibility}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"
-              >
-                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-              </button>
+              {errors.name && <p className="text-red-500 text-sm">{errors.name.message}</p>}
             </div>
-            {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
-          </div>
 
-          <div className="relative">
-            <Label className="text-md text-[#5F6A48]">Confirm Password</Label>
-            <div className="relative">
+            <div>
+              <Label className="text-md text-[#5F6A48]">Email</Label>
               <Input
-                type={showConfirmPassword ? 'text' : 'password'}
-                {...register('confirmPassword')}
-                className="rounded-none border-[#5F6A48] pr-10"
-                placeholder="••••••••"
+                type="email"
+                {...register('email')}
+                className="rounded-none border-[#5F6A48]"
+                placeholder="you@example.com"
               />
-              <button
-                type="button"
-                onClick={toggleConfirmPasswordVisibility}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"
-              >
-                {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-              </button>
+              {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
             </div>
-            {errors.confirmPassword && (
-              <p className="text-red-500 text-sm">{errors.confirmPassword.message}</p>
-            )}
-          </div>
 
-          <Button
-            type="submit"
-            className="w-full bg-[#5F6A48] text-white rounded-none"
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? 'Signing up...' : 'Sign Up'}
-          </Button>
-        </form>
+            <div>
+              <Label className="text-md text-[#5F6A48]">Phone</Label>
+              <Input
+                type="tel"
+                {...register('phoneNumber')}
+                className="rounded-none border-[#5F6A48]"
+                placeholder="Enter your phone number"
+              />
+              {errors.phoneNumber && (
+                <p className="text-red-500 text-sm">{errors.phoneNumber.message}</p>
+              )}
+            </div>
+
+            <div className="relative">
+              <Label className="text-md text-[#5F6A48]">Password</Label>
+              <div className="relative">
+                <Input
+                  type={showPassword ? 'text' : 'password'}
+                  {...register('password')}
+                  className="rounded-none border-[#5F6A48] pr-10"
+                  placeholder="••••••••"
+                />
+                <button
+                  type="button"
+                  onClick={togglePasswordVisibility}
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"
+                >
+                  {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                </button>
+              </div>
+              {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
+            </div>
+
+            <div className="relative">
+              <Label className="text-md text-[#5F6A48]">Confirm Password</Label>
+              <div className="relative">
+                <Input
+                  type={showConfirmPassword ? 'text' : 'password'}
+                  {...register('confirmPassword')}
+                  className="rounded-none border-[#5F6A48] pr-10"
+                  placeholder="••••••••"
+                />
+                <button
+                  type="button"
+                  onClick={toggleConfirmPasswordVisibility}
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500"
+                >
+                  {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                </button>
+              </div>
+              {errors.confirmPassword && (
+                <p className="text-red-500 text-sm">{errors.confirmPassword.message}</p>
+              )}
+            </div>
+
+            <Button
+              type="submit"
+              className="w-full bg-[#5F6A48] text-white rounded-none"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? 'Signing up...' : 'Sign Up'}
+            </Button>
+          </form>
+        </div>
       </div>
-    </div>
     </PageLayout>
   )
 }

@@ -2,16 +2,16 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Menubar, MenubarMenu } from '@/components/ui/menubar'
 import Link from 'next/link'
-import { FiUser, FiHeart, FiSearch, FiShoppingCart, FiMenu } from "react-icons/fi";
-import { usePathname } from 'next/navigation';
+import { FiUser, FiHeart, FiSearch, FiShoppingCart, FiMenu } from 'react-icons/fi'
+import { usePathname } from 'next/navigation'
 
 const Bottom = () => {
-  const [showSideNav, setShowSideNav] = useState<boolean>(false);
-  const sideNavRef = useRef<HTMLDivElement>(null);
-  const menuIconRef = useRef<HTMLDivElement>(null); 
+  const [showSideNav, setShowSideNav] = useState<boolean>(false)
+  const sideNavRef = useRef<HTMLDivElement>(null)
+  const menuIconRef = useRef<HTMLDivElement>(null)
 
-  const pathName = usePathname();
-  const home = pathName === '/';
+  const pathName = usePathname()
+  const home = pathName === '/'
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -21,20 +21,20 @@ const Bottom = () => {
         menuIconRef.current &&
         !menuIconRef.current.contains(e.target as Node)
       ) {
-        setShowSideNav(false);
+        setShowSideNav(false)
       }
-    };
+    }
 
     if (showSideNav) {
-      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener('mousedown', handleClickOutside)
     } else {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside)
     }
 
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [showSideNav]);
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [showSideNav])
 
   return (
     <>
@@ -109,7 +109,11 @@ const Bottom = () => {
           {/* Icons Section */}
           <div className="flex gap-6 mt-auto">
             {[FiSearch, FiUser, FiHeart, FiShoppingCart].map((Icon, index) => (
-              <Icon key={index} size="1.5rem" className="text-white hover:text-gray-300 cursor-pointer" />
+              <Icon
+                key={index}
+                size="1.5rem"
+                className="text-white hover:text-gray-300 cursor-pointer"
+              />
             ))}
           </div>
         </Menubar>
@@ -118,4 +122,4 @@ const Bottom = () => {
   )
 }
 
-export default Bottom;
+export default Bottom

@@ -53,99 +53,98 @@ export default function UserProfile() {
 
   return (
     <PageLayout footer>
-  <div className="min-w-full h-full flex flex-col justify-center items-center">
-      <div className="px-10 min-w-full flex flex-col justify-center items-center gap-3">
-        <h1 className="text-3xl text-[#5F6A48]">User Profile</h1>
+      <div className="min-w-full h-full flex flex-col justify-center items-center">
+        <div className="px-10 min-w-full flex flex-col justify-center items-center gap-3">
+          <h1 className="text-3xl text-[#5F6A48]">User Profile</h1>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 w-full max-w-md">
-          {/* Phone Number */}
-          <div>
-            <Label className="text-md text-[#5F6A48]">Phone Number</Label>
-            <Input
-              className="rounded-none border-[#5F6A48]"
-              type="text"
-              {...register('phoneNumber')}
-              placeholder="Your phone number"
-            />
-            {errors.phoneNumber && (
-              <p className="text-red-500 text-sm">{errors.phoneNumber.message}</p>
-            )}
-          </div>
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 w-full max-w-md">
+            {/* Phone Number */}
+            <div>
+              <Label className="text-md text-[#5F6A48]">Phone Number</Label>
+              <Input
+                className="rounded-none border-[#5F6A48]"
+                type="text"
+                {...register('phoneNumber')}
+                placeholder="Your phone number"
+              />
+              {errors.phoneNumber && (
+                <p className="text-red-500 text-sm">{errors.phoneNumber.message}</p>
+              )}
+            </div>
 
-          {/* Country */}
-          <div>
-            <Label className="text-md text-[#5F6A48]">Country</Label>
-            <Input
-              className="rounded-none border-[#5F6A48]"
-              type="text"
-              {...register('country')}
-              placeholder="Country"
-            />
-          </div>
+            {/* Country */}
+            <div>
+              <Label className="text-md text-[#5F6A48]">Country</Label>
+              <Input
+                className="rounded-none border-[#5F6A48]"
+                type="text"
+                {...register('country')}
+                placeholder="Country"
+              />
+            </div>
 
-          {/* Address */}
-          <div>
-            <Label className="text-md text-[#5F6A48]">Address</Label>
-            <Input
-              className="rounded-none border-[#5F6A48]"
-              {...register('address')}
-              placeholder="Street Address"
-            />
-            {errors.address && <p className="text-red-500 text-sm">{errors.address.message}</p>}
-          </div>
+            {/* Address */}
+            <div>
+              <Label className="text-md text-[#5F6A48]">Address</Label>
+              <Input
+                className="rounded-none border-[#5F6A48]"
+                {...register('address')}
+                placeholder="Street Address"
+              />
+              {errors.address && <p className="text-red-500 text-sm">{errors.address.message}</p>}
+            </div>
 
-          {/* City */}
-          <div>
-            <Label className="text-md text-[#5F6A48]">City</Label>
-            <Input
-              className="rounded-none border-[#5F6A48]"
-              type="text"
-              {...register('city')}
-              placeholder="City"
-            />
-          </div>
+            {/* City */}
+            <div>
+              <Label className="text-md text-[#5F6A48]">City</Label>
+              <Input
+                className="rounded-none border-[#5F6A48]"
+                type="text"
+                {...register('city')}
+                placeholder="City"
+              />
+            </div>
 
-          {/* State */}
-          <div>
-            <Label className="text-md text-[#5F6A48]">State</Label>
-            <Input
-              className="rounded-none border-[#5F6A48]"
-              type="text"
-              {...register('state')}
-              placeholder="State"
-            />
-          </div>
+            {/* State */}
+            <div>
+              <Label className="text-md text-[#5F6A48]">State</Label>
+              <Input
+                className="rounded-none border-[#5F6A48]"
+                type="text"
+                {...register('state')}
+                placeholder="State"
+              />
+            </div>
 
-          {/* ZIP Code */}
-          <div>
-            <Label className="text-md text-[#5F6A48]">ZIP Code</Label>
-            <Input
-              className="rounded-none border-[#5F6A48]"
-              type="text"
-              {...register('zipCode')}
-              placeholder="ZIP Code"
-            />
-            {errors.zipCode && <p className="text-red-500 text-sm">{errors.zipCode.message}</p>}
-          </div>
+            {/* ZIP Code */}
+            <div>
+              <Label className="text-md text-[#5F6A48]">ZIP Code</Label>
+              <Input
+                className="rounded-none border-[#5F6A48]"
+                type="text"
+                {...register('zipCode')}
+                placeholder="ZIP Code"
+              />
+              {errors.zipCode && <p className="text-red-500 text-sm">{errors.zipCode.message}</p>}
+            </div>
 
-          {/* Default Address Checkbox */}
-          <div className="flex items-center gap-2">
-            <input type="checkbox" {...register('isDefault')} />
-            <Label>Set as default address</Label>
-          </div>
+            {/* Default Address Checkbox */}
+            <div className="flex items-center gap-2">
+              <input type="checkbox" {...register('isDefault')} />
+              <Label>Set as default address</Label>
+            </div>
 
-          {/* Submit Button */}
-          <Button
-            type="submit"
-            className="w-full bg-[#5F6A48] text-white rounded-none"
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? 'Saving...' : 'Save Profile'}
-          </Button>
-        </form>
+            {/* Submit Button */}
+            <Button
+              type="submit"
+              className="w-full bg-[#5F6A48] text-white rounded-none"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? 'Saving...' : 'Save Profile'}
+            </Button>
+          </form>
+        </div>
       </div>
-    </div>
     </PageLayout>
-  
   )
 }
