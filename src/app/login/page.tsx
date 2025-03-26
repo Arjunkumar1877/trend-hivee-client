@@ -71,7 +71,7 @@ export default function Login() {
       <div className="min-w-full h-full flex flex-col justify-center items-center">
         <div className="px-10 min-w-full flex flex-col justify-center items-center">
           <h1 className="text-3xl text-[#5F6A48] ">SIGN IN</h1>
-          <Spacer  size='1.5rem' />
+          <Spacer size="1.5rem" />
 
           <form onSubmit={handleSubmit(onSubmit)} className="">
             <div>
@@ -84,7 +84,7 @@ export default function Login() {
               />
               {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
             </div>
-<Spacer  size='1rem' />
+            <Spacer size="1rem" />
             <div className="relative">
               <Label className="text-md text-[#5F6A48]">Password</Label>
               <div className="relative">
@@ -104,7 +104,7 @@ export default function Login() {
               </div>
               {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
             </div>
-            <Spacer  size='1.5rem' />
+            <Spacer size="1.5rem" />
 
             <Button
               type="submit"
@@ -114,8 +114,9 @@ export default function Login() {
               {isSubmitting ? 'Logging In...' : 'Login'}
             </Button>
 
-            <Link className="text-sm font-bold text-[#5F6A48]" href="/forget-password">Forget password</Link>
-
+            <Link className="text-sm font-bold text-[#5F6A48]" href="/forget-password">
+              Forget password
+            </Link>
           </form>
         </div>
       </div>
