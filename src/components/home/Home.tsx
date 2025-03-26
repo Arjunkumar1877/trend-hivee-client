@@ -4,15 +4,15 @@ import Image from 'next/image'
 import React, { useEffect } from 'react'
 import { CollectionSlide } from './CollectionsSlide'
 import LogoBanner from './LogoBanner'
+import FeaturedProducts from './FeaturedProducts'
 
 const Home = () => {
   useEffect(() => {
     window.scrollTo({
-      top: 80, // Adjust this value as needed
+      top: 80, 
       behavior: 'smooth',
     })
 
-    // Prevent scrolling back to the top
     const handleScroll = () => {
       if (window.scrollY < 80) {
         window.scrollTo(0, 80)
@@ -45,6 +45,7 @@ const Home = () => {
       </div>
       <CollectionSlide />
       <LogoBanner />
+      <FeaturedProducts />
     </PageLayout>
   )
 }
