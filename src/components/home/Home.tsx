@@ -9,7 +9,7 @@ import FeaturedProducts from './FeaturedProducts'
 const Home = () => {
   useEffect(() => {
     window.scrollTo({
-      top: 80, 
+      top: 80,
       behavior: 'smooth',
     })
 

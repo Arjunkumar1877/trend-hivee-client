@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Button } from '../ui/button'
 import { Card, CardContent } from '../ui/card'
-import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io"
+import { IoIosArrowForward, IoIosArrowBack } from 'react-icons/io'
 import Image from 'next/image'
 
 const FeaturedProducts = () => {
@@ -32,7 +32,7 @@ const FeaturedProducts = () => {
   const paginatedImages = images.slice(currentPage * itemsPerPage, (currentPage + 1) * itemsPerPage)
 
   return (
-    <div className='w-full'>
+    <div className="w-full">
       <p className="text-[#5F6A48] w-full text-4xl font-normal py-10 font-[Agatho] text-center uppercase">
         Our Featured Abayas
       </p>
@@ -41,26 +41,20 @@ const FeaturedProducts = () => {
       <div className="flex justify-center overflow-hidden">
         {paginatedImages.map((data, index) => (
           <div key={index} className="md:basis-1/5 lg:basis-1/5 p-2">
-            <Card className="rounded-none">
-  <CardContent className="relative w-full aspect-square flex items-center justify-center p-0">
-    <div className="relative w-full h-full">
-      <Image 
-        alt="Featured Product" 
-        src={data} 
-        fill 
-        className="object-contain" 
-      />
-    </div>
+            <Card className="rounded-none p-0">
+              <CardContent className="relative w-full aspect-square flex items-center justify-center p-0">
+                <div className="relative w-full p-0 h-96">
+                  <Image alt="Featured Product" src={data} fill className="object-center" />
+                </div>
 
-    <Button
-      type="submit"
-      className="bg-[#5F6A48] w-[90%] text-white rounded-none text-md font-normal px-9 bottom-5 font-[Agatho] absolute z-10"
-    >
-      View
-    </Button>
-  </CardContent>
-</Card>
-
+                <Button
+                  type="submit"
+                  className="bg-[#5F6A48] w-[90%] text-white rounded-none text-md font-normal px-9 bottom-5 font-[Agatho] absolute z-10"
+                >
+                  View
+                </Button>
+              </CardContent>
+            </Card>
           </div>
         ))}
       </div>
