@@ -5,12 +5,8 @@ import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useFirebaseLogin } from '@/api/mutations/useLogin'
-import { toast } from 'sonner'
-import { getFirebaseErrorMessage } from '@/lib/error'
 import { useState } from 'react'
 import { EyeOff, Eye } from 'lucide-react'
-import { useCheckUserIsVerified } from '@/api/mutations/useCheckUserIsVerified'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useAuthControl } from '@/lib/control'
@@ -35,35 +31,8 @@ export default function Login() {
     resolver: zodResolver(signupSchema),
   })
 
-  const login = useFirebaseLogin()
-  const checkUser = useCheckUserIsVerified()
-
   const onSubmit = async (data: { email: string; password: string }) => {
-    const { email, password } = data
-
-    try {
-      const res = await login.mutateAsync({ email, password })
-
-      if (!res?.uid) {
-        toast.error('Login failed. Please try again.')
-        return
-      }
-
-      authControl.actions.loggedInFirebaseUserRecieved(res)
-
-      const response = await checkUser.mutateAsync({ firebaseId: res.uid })
-
-      if (!response.verified) {
-        authControl.actions.userLoggedOut()
-      }
-
-      authControl.actions.loggedInUserReceived(response.data)
-      router.push(response.verified ? '/' : response.data)
-      toast(response.message || (response.verified ? 'Welcome back!' : 'Verification required.'))
-    } catch (error) {
-      const message = getFirebaseErrorMessage(error as any)
-      toast.error(message)
-    }
+    console.log(data)
   }
 
   return (
