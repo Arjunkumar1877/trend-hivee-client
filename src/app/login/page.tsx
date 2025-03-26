@@ -15,6 +15,7 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useAuthControl } from '@/lib/control'
 import PageLayout from '@/components/pageLayout/PageLayout'
+import Spacer from '@/components/ui/Spacer'
 
 const signupSchema = z.object({
   email: z.string().email('Invalid email'),
@@ -68,10 +69,11 @@ export default function Login() {
   return (
     <PageLayout footer>
       <div className="min-w-full h-full flex flex-col justify-center items-center">
-        <div className="px-10 min-w-full flex flex-col justify-center items-center gap-3">
+        <div className="px-10 min-w-full flex flex-col justify-center items-center">
           <h1 className="text-3xl text-[#5F6A48] ">SIGN IN</h1>
+          <Spacer  size='1.5rem' />
 
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          <form onSubmit={handleSubmit(onSubmit)} className="">
             <div>
               <Label className="text-md text-[#5F6A48]">Email</Label>
               <Input
@@ -82,7 +84,7 @@ export default function Login() {
               />
               {errors.email && <p className="text-red-500 text-sm">{errors.email.message}</p>}
             </div>
-
+<Spacer  size='1rem' />
             <div className="relative">
               <Label className="text-md text-[#5F6A48]">Password</Label>
               <div className="relative">
@@ -102,6 +104,7 @@ export default function Login() {
               </div>
               {errors.password && <p className="text-red-500 text-sm">{errors.password.message}</p>}
             </div>
+            <Spacer  size='1.5rem' />
 
             <Button
               type="submit"
@@ -111,7 +114,8 @@ export default function Login() {
               {isSubmitting ? 'Logging In...' : 'Login'}
             </Button>
 
-            <Link href="/forget-password">Forget password</Link>
+            <Link className="text-sm font-bold text-[#5F6A48]" href="/forget-password">Forget password</Link>
+
           </form>
         </div>
       </div>
