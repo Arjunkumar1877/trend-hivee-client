@@ -12,6 +12,7 @@ import Link from 'next/link'
 import { useAuthControl } from '@/lib/control'
 import PageLayout from '@/components/pageLayout/PageLayout'
 import Spacer from '@/components/ui/Spacer'
+import { useAdminLogin } from '@/api/mutations/admin/useAdminLogin'
 
 const signupSchema = z.object({
   email: z.string().email('Invalid email'),
@@ -30,13 +31,20 @@ export default function Login() {
   } = useForm({
     resolver: zodResolver(signupSchema),
   })
-
+  const adminLogin = useAdminLogin()
   const onSubmit = async (data: { email: string; password: string }) => {
-    console.log(data)
+    console.log(data);
+    const { email, password } = data
+    const loggedInAdmin = await adminLogin.mutateAsync({
+        email,
+        password
+    })
+
+    console.log(loggedInAdmin.data)
+    
   }
 
   return (
-    <PageLayout footer>
       <div className="min-w-full h-full flex flex-col justify-center items-center">
         <div className="px-10 min-w-full flex flex-col justify-center items-center">
           <h1 className="text-3xl text-[#5F6A48] ">SIGN IN</h1>
@@ -89,6 +97,5 @@ export default function Login() {
           </form>
         </div>
       </div>
-    </PageLayout>
   )
 }
