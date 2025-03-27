@@ -19,7 +19,7 @@ const signupSchema = z.object({
   password: z.string().min(6, 'Password must be at least 6 characters'),
 })
 
-export default function Login() {
+export default function AdminLoginPage() {
   const router = useRouter()
   const [showPassword, setShowPassword] = useState(false)
   const togglePasswordVisibility = () => setShowPassword((prev) => !prev)
@@ -88,7 +88,7 @@ export default function Login() {
               className="w-full bg-[#5F6A48] text-white rounded-none"
               disabled={isSubmitting}
             >
-              {isSubmitting ? 'Logging In...' : 'Login'}
+              {isSubmitting ? 'Logging In...' : 'AdminLoginPage'}
             </Button>
 
             <Link className="text-sm font-bold text-[#5F6A48]" href="/forget-password">

@@ -2,6 +2,7 @@
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 
 const products = [
   {
@@ -49,11 +50,12 @@ const products = [
 ]
 
 export default function AdminProductsPage() {
+    const router = useRouter();
   return (
     <div className="p-6">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">Products</h1>
-        <Button className="bg-green-600 text-white">Add Product</Button>
+        <Button className="bg-green-600 text-white" onClick={()=> router.push('/admin/products/add-product')}>Add Product</Button>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
