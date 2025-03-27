@@ -62,13 +62,13 @@ const Bottom = () => {
         {/* Desktop Navigation Links */}
         <div className="gap-10 hidden md:flex">
           {[
-            { label: 'Home', href: '/' },
-            { label: 'New Arrival', href: '/newarrival' },
-            { label: 'Trending', href: '/trending' },
-            { label: 'About Us', href: '/aboutus' },
-            { label: 'Contact Us', href: '/contactus' },
-            { label: 'Login', href: '/login' },
-            { label: 'Signup', href: '/signup' },
+              { label: 'Dashboard', href: '/admin/dashboard' },
+              { label: 'products', href: '/admin/products' },
+              { label: 'Orders', href: '/admin/orders' },
+              { label: 'About Us', href: '/aboutus' },
+              { label: 'Contact Us', href: '/contactus' },
+              { label: 'Login', href: '/admin/login' },
+              { label: 'Signup', href: '/signup' },
           ].map((item) => (
             <MenubarMenu key={item.href}>
               <Link href={item.href} className="text-white hover:text-gray-300 transition-colors">
@@ -78,7 +78,6 @@ const Bottom = () => {
           ))}
         </div>
 
-        {/* Icons Section */}
             {/* Menu Icon with ref */}
             <div ref={menuIconRef}>
             <FiMenu
@@ -92,12 +91,12 @@ const Bottom = () => {
       {showSideNav && (
         <Menubar
           ref={sideNavRef}
-          className={`bg-[#5F6A48] rounded-none fixed bottom-0 left-0 h-[82.5%] w-[250px] flex flex-col items-start px-6 py-8 border-none backdrop-blur-md`}
+          className={`bg-[#5F6A48] rounded-none fixed bottom-0 left-0 h-[87%] w-[250px] flex flex-col items-start px-6 py-8 border-none backdrop-blur-md`}
         >
           {/* Navigation Links */}
           <div className="flex flex-col gap-6">
             {[
-              { label: 'DashBoard', href: '/admin/dashboard' },
+              { label: 'Dashboard', href: '/admin/dashboard' },
               { label: 'products', href: '/admin/products' },
               { label: 'Orders', href: '/admin/orders' },
               { label: 'About Us', href: '/aboutus' },
