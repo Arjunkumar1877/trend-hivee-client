@@ -8,17 +8,13 @@ import { FiMenu } from 'react-icons/fi'
 function Navbar() {
   return (
     <div className="fixed top-0  w-full bg-white z-50 shadow-md">
-      <div className="h-[40px] bg-[#FFFFFF] flex justify-center items-center p-1 text-[#5F6A48] font-semibold text-[14px]">
-      </div>
+      <div className="h-[40px] bg-[#FFFFFF] flex justify-center items-center p-1 text-[#5F6A48] font-semibold text-[14px]"></div>
       <Bottom />
     </div>
   )
 }
 
 export default Navbar
-
-
-
 
 const Bottom = () => {
   const [showSideNav, setShowSideNav] = useState<boolean>(false)
@@ -62,13 +58,13 @@ const Bottom = () => {
         {/* Desktop Navigation Links */}
         <div className="gap-10 hidden md:flex">
           {[
-              { label: 'Dashboard', href: '/admin/dashboard' },
-              { label: 'products', href: '/admin/products' },
-              { label: 'Orders', href: '/admin/orders' },
-              { label: 'About Us', href: '/aboutus' },
-              { label: 'Contact Us', href: '/contactus' },
-              { label: 'Login', href: '/admin/login' },
-              { label: 'Signup', href: '/signup' },
+            { label: 'Dashboard', href: '/admin/dashboard' },
+            { label: 'products', href: '/admin/products' },
+            { label: 'Orders', href: '/admin/orders' },
+            { label: 'About Us', href: '/aboutus' },
+            { label: 'Contact Us', href: '/contactus' },
+            { label: 'Login', href: '/admin/login' },
+            { label: 'Signup', href: '/signup' },
           ].map((item) => (
             <MenubarMenu key={item.href}>
               <Link href={item.href} className="text-white hover:text-gray-300 transition-colors">
@@ -78,13 +74,13 @@ const Bottom = () => {
           ))}
         </div>
 
-            {/* Menu Icon with ref */}
-            <div ref={menuIconRef}>
-            <FiMenu
-              onClick={() => setShowSideNav((prev) => !prev)}
-              className="text-white hover:text-gray-300 cursor-pointer md:hidden"
-            />
-          </div>
+        {/* Menu Icon with ref */}
+        <div ref={menuIconRef}>
+          <FiMenu
+            onClick={() => setShowSideNav((prev) => !prev)}
+            className="text-white hover:text-gray-300 cursor-pointer md:hidden"
+          />
+        </div>
       </Menubar>
 
       {/* Side Navbar */}
@@ -111,11 +107,8 @@ const Bottom = () => {
               </MenubarMenu>
             ))}
           </div>
-
-   
         </Menubar>
       )}
     </>
   )
 }
-

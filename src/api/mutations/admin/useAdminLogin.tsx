@@ -1,13 +1,13 @@
 import { useMutation } from '@tanstack/react-query'
-import api from '@/lib/axiosInstance';
+import api from '@/lib/axiosInstance'
 
 export function useAdminLogin() {
   const mutation = useMutation({
     mutationFn: async ({ email, password }: { email: string; password: string }) => {
       try {
         const adminCreds = api.post('/admin/login', {
-            email,
-            password
+          email,
+          password,
         })
         return adminCreds
       } catch (error: any) {
