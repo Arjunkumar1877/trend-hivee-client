@@ -8,6 +8,7 @@ import 'tsconfig-paths/register'
 import { ApiService, services } from './services'
 import { exitCode } from '../../src/lib/cp'
 import { findRootPath } from '../../src/lib/root'
+import fs from 'fs' 
 
 run()
 
@@ -23,7 +24,7 @@ export async function run() {
 async function downloadService(service: ApiService, rootPath: string) {
   console.log(chalk.yellow(`Downloading swagger for service ${chalk.green(service)}.`))
   const apiDocsUrl = match(service)
-    .with('trend-hive', () => process.env.NEXT_PUBLIC_API_URL+ '/api-docs/trend-hive')
+    .with('trend-hive', () => process.env.NEXT_PUBLIC_API_URL + '/api-docs/trend-hive')
     .exhaustive()
 
   const swaggerFolderPath = path.join(rootPath, 'src/api/trendhive/services', service)
@@ -31,6 +32,8 @@ async function downloadService(service: ApiService, rootPath: string) {
   console.log(apiDocsUrl)
 
   if (apiDocsUrl) {
+    fs.mkdirSync(swaggerFolderPath, { recursive: true }) 
+
     let timeoutWarningCount = 0
     const timeout = setInterval(() => {
       console.log(
@@ -43,11 +46,9 @@ async function downloadService(service: ApiService, rootPath: string) {
       timeoutWarningCount += 1
     }, 10000)
 
-
     const code = await exitCode(
       cp.spawn(
-        `curl '${apiDocsUrl}' | jq --sort-keys | prettier --parser=json > ${swaggerFolderPath}/original.swagger.json 
-    `,
+        `curl '${apiDocsUrl}' | jq --sort-keys | prettier --parser=json > ${swaggerFolderPath}/original.swagger.json`,
         { shell: 'bash', stdio: 'inherit' }
       )
     )

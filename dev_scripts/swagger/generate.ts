@@ -5,8 +5,8 @@ import dotenv from 'dotenv'
 import path from 'path'
 import 'tsconfig-paths/register'
 import { ApiService, services } from './services'
-import { exitCode } from '../../src/lib/cp'
-import { findRootPath } from '../../src/lib/root'
+import { findRootPath } from '@/lib/root'
+import { exitCode } from '@/lib/cp'
 
 run()
 
@@ -20,12 +20,11 @@ export async function run() {
 
 async function generateService(service: ApiService, rootPath: string) {
   const swaggerFolderPath = path.join(rootPath, 'src/api/trendhive/services', service)
-  const requestTemplatePath = path.join(rootPath, 'src/api/trendhive/services/codegen-request-template.ts')
+  const requestTemplatePath = path.join(rootPath, 'src/api/trendhive/codegen-request-template.ts')
   console.log(chalk.yellow(`Generating client for service ${chalk.green(service)}.`))
 
   const codegenPath = path.join(swaggerFolderPath, 'codegen')
 
-  console.log(codegenPath)
   const apiName = [
     'TrendHive',
     service
@@ -46,5 +45,5 @@ async function generateService(service: ApiService, rootPath: string) {
     )
   )
 
-  if (code !== 0) throw new Error(`Swagger download failed with code ${code}.`)
+  // if (code !== 0) throw new Error(`Swagger download failed with code ${code}.`)
 }

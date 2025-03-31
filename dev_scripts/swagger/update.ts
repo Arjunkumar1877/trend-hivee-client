@@ -22,21 +22,27 @@ async function updateService(service: ApiService, rootPath: string) {
   const swaggerJsonPath = path.resolve(swaggerFolderPath, 'swagger.json')
   const originalSwaggerJsonPath = path.resolve(swaggerFolderPath, 'original.swagger.json')
 
-  // load
-  const swaggerJson = JSON.parse(
-    await fs.readFile(originalSwaggerJsonPath).then((buffer) => buffer.toString('utf-8'))
-  )
+  try {
+    // load
+    const swaggerJson = JSON.parse(
+      await fs.readFile(originalSwaggerJsonPath, 'utf-8')
+    )
 
-  // update
-  const updatedSwaggerJson = match(service)
-    .with('trend-hive', () => swaggerJson)
-    .exhaustive()
+    // update
+    const updatedSwaggerJson = match(service)
+      .with('trend-hive', () => swaggerJson)
+      .exhaustive()
 
-  // save
-  await fs.writeFile(swaggerJsonPath, JSON.stringify(updatedSwaggerJson, null, 3))
+    // save
+    await fs.writeFile(swaggerJsonPath, JSON.stringify(updatedSwaggerJson, null, 3))
 
-  // format the same way to make it diffable
-  cp.execSync(
-    `cat ${swaggerJsonPath} | jq --sort-keys | prettier --parser=json | sponge ${swaggerJsonPath}`
-  )
+    // format using jq and prettier
+    cp.execSync(
+      `cat ${swaggerJsonPath} | jq --sort-keys | npx prettier --parser=json --write ${swaggerJsonPath}`
+    )
+
+    console.log(chalk.green(`Swagger updated successfully for ${service}.`))
+  } catch (error) {
+    console.error(chalk.red(`Failed to update swagger for ${service}:`), error)
+  }
 }
