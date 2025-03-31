@@ -1,4 +1,4 @@
-import { initializeApp, getApps } from '@firebase/app'
+import { initializeApp } from '@firebase/app'
 import { getAuth, onAuthStateChanged, User } from '@firebase/auth'
 import { getStorage } from '@firebase/storage'
 

@@ -61,7 +61,7 @@ export default function Login() {
       router.push(response.verified ? '/' : response.data)
       toast(response.message || (response.verified ? 'Welcome back!' : 'Verification required.'))
     } catch (error) {
-      const message = getFirebaseErrorMessage(error as any)
+      const message = getFirebaseErrorMessage(error as { message: string; code: string })
       toast.error(message)
     }
   }
