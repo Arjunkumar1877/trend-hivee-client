@@ -1,5 +1,5 @@
-import api from '@/lib/axiosInstance'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { getApi } from '../trendhive/api'
 
 export function useCheckUserIsVerified() {
   const qc = useQueryClient()
@@ -7,7 +7,10 @@ export function useCheckUserIsVerified() {
   return useMutation({
     mutationFn: async (input: { firebaseId: string }) => {
       const { firebaseId } = input
-      const res = await api.get(`/auth/check-user/${firebaseId}`)
+      const api = await getApi()
+      const res = await api.trendHive.auth.authControllerCheckUser({
+        firebaseId: firebaseId
+      })
       return res.data
     },
     onSuccess: () => {

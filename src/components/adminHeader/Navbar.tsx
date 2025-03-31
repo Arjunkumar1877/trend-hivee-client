@@ -1,7 +1,6 @@
 'use client'
 import { Menubar, MenubarMenu } from '@/components/ui/menubar'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
 import { useState, useRef, useEffect } from 'react'
 import { FiMenu } from 'react-icons/fi'
 
@@ -21,7 +20,6 @@ const Bottom = () => {
   const sideNavRef = useRef<HTMLDivElement>(null)
   const menuIconRef = useRef<HTMLDivElement>(null)
 
-  const pathName = usePathname()
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {

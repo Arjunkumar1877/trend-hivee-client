@@ -46,7 +46,13 @@ export default function Signup() {
 
   const onSubmit = async (data: UserType) => {
     try {
-      const res = await signup.mutateAsync(data)
+      const res = await signup.mutateAsync({
+        email: data.email as string,
+        isEmailVerified: false,
+        name: data.name as string,
+        password: data.password as string,
+        phoneNumber: data.phoneNumber as string
+      })
 
       toast(res.message)
       if (!res.success) return

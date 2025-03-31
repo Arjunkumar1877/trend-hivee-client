@@ -7,10 +7,7 @@ import { Input } from '@/components/ui/input'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
 import { EyeOff, Eye } from 'lucide-react'
-import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { useAuthControl } from '@/lib/control'
-import PageLayout from '@/components/pageLayout/PageLayout'
 import Spacer from '@/components/ui/Spacer'
 import { useAdminLogin } from '@/api/mutations/admin/useAdminLogin'
 
@@ -20,10 +17,8 @@ const signupSchema = z.object({
 })
 
 export default function AdminLoginPage() {
-  const router = useRouter()
   const [showPassword, setShowPassword] = useState(false)
   const togglePasswordVisibility = () => setShowPassword((prev) => !prev)
-  const authControl = useAuthControl()
   const {
     register,
     handleSubmit,

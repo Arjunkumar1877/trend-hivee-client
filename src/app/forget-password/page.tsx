@@ -8,7 +8,6 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Label } from '@radix-ui/react-menubar'
 import React from 'react'
 import { useForm } from 'react-hook-form'
-import { toast } from 'sonner'
 import { z } from 'zod'
 
 const ForgetPassword = () => {
