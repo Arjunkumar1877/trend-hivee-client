@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 
 interface SpacerProps {
   size: string | string[]
   horizontal?: boolean
   parentStackGap?: string
+  className?: ReactNode
 }
 
 const Spacer: React.FC<SpacerProps> = ({ size, horizontal = false, parentStackGap = '0' }) => {
