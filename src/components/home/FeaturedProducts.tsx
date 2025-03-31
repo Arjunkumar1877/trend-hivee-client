@@ -77,7 +77,8 @@ const FeaturedProducts = () => {
     } else if (isMobile) {
       const startPages = [0, 1]
       const endPages = [totalPages - 2, totalPages - 1]
-      const currentRange = currentPage <= 1 ? 2 : currentPage >= totalPages - 2 ? totalPages - 3 : currentPage
+      const currentRange =
+        currentPage <= 1 ? 2 : currentPage >= totalPages - 2 ? totalPages - 3 : currentPage
 
       items.push(...startPages)
       if (currentRange > 2) items.push('...')

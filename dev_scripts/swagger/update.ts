@@ -24,9 +24,7 @@ async function updateService(service: ApiService, rootPath: string) {
 
   try {
     // load
-    const swaggerJson = JSON.parse(
-      await fs.readFile(originalSwaggerJsonPath, 'utf-8')
-    )
+    const swaggerJson = JSON.parse(await fs.readFile(originalSwaggerJsonPath, 'utf-8'))
 
     // update
     const updatedSwaggerJson = match(service)

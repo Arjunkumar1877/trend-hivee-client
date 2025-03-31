@@ -17,4 +17,3 @@ process.stdout.write(env ?? '')
 process.exit(0)
 
 export {}
-

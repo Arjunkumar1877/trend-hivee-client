@@ -1,16 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-
-export function generateNullableSchema(args: { properties: Record<string, any>}) {
-
-  for(const propertyName of Object.keys(args.properties)) {
+export function generateNullableSchema(args: { properties: Record<string, any> }) {
+  for (const propertyName of Object.keys(args.properties)) {
     args.properties[propertyName] = { ...args.properties[propertyName], nullable: true }
   }
 
   return {
     ...args,
     properties: args.properties,
-    required: Object.keys(args.properties)
+    required: Object.keys(args.properties),
   }
 }
 
@@ -162,4 +160,3 @@ export function swaggerPageSchema(args: { item: any }) {
     type: 'object',
   }
 }
-

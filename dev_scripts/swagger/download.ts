@@ -8,7 +8,7 @@ import 'tsconfig-paths/register'
 import { ApiService, services } from './services'
 import { exitCode } from '../../src/lib/cp'
 import { findRootPath } from '../../src/lib/root'
-import fs from 'fs' 
+import fs from 'fs'
 
 run()
 
@@ -32,7 +32,7 @@ async function downloadService(service: ApiService, rootPath: string) {
   console.log(apiDocsUrl)
 
   if (apiDocsUrl) {
-    fs.mkdirSync(swaggerFolderPath, { recursive: true }) 
+    fs.mkdirSync(swaggerFolderPath, { recursive: true })
 
     let timeoutWarningCount = 0
     const timeout = setInterval(() => {

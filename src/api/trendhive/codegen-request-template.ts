@@ -305,32 +305,46 @@ export const request = <T>(
   config: OpenAPIConfig,
   options: ApiRequestOptions
 ): CancelablePromise<T> => {
-  return new CancelablePromise(async (resolve: (arg0: any) => void, reject: (arg0: unknown) => void, onCancel: { isCancelled: any }) => {
-    try {
-      const url = getUrl(config, options)
-      const formData = getFormData(options)
-      const body = getRequestBody(options)
-      const headers = await getHeaders(config, options)
+  return new CancelablePromise(
+    async (
+      resolve: (arg0: any) => void,
+      reject: (arg0: unknown) => void,
+      onCancel: { isCancelled: any }
+    ) => {
+      try {
+        const url = getUrl(config, options)
+        const formData = getFormData(options)
+        const body = getRequestBody(options)
+        const headers = await getHeaders(config, options)
 
-      if (!onCancel.isCancelled) {
-        const response = await sendRequest(config, options, url, body, formData, headers, onCancel)
-        const responseBody = await getResponseBody(response)
-        const responseHeader = getResponseHeader(response, options.responseHeader)
+        if (!onCancel.isCancelled) {
+          const response = await sendRequest(
+            config,
+            options,
+            url,
+            body,
+            formData,
+            headers,
+            onCancel
+          )
+          const responseBody = await getResponseBody(response)
+          const responseHeader = getResponseHeader(response, options.responseHeader)
 
-        const result: ApiResult = {
-          url,
-          ok: response.ok,
-          status: response.status,
-          statusText: response.statusText,
-          body: responseHeader ?? responseBody,
+          const result: ApiResult = {
+            url,
+            ok: response.ok,
+            status: response.status,
+            statusText: response.statusText,
+            body: responseHeader ?? responseBody,
+          }
+
+          catchErrorCodes(options, result)
+
+          resolve(result.body)
         }
-
-        catchErrorCodes(options, result)
-
-        resolve(result.body)
+      } catch (error) {
+        reject(error)
       }
-    } catch (error) {
-      reject(error)
     }
-  })
+  )
 }
