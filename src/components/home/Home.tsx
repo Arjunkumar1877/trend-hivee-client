@@ -28,10 +28,10 @@ const Home = () => {
     <PageLayout footer>
       {/* Hero Section */}
       <div className="w-full h-[20rem] xs:h-[24rem] sm:h-[28rem] md:h-[34rem] lg:h-[40rem] relative bg-[#E6DDD8]">
-        <Image 
-          src="/images/home/1.png" 
-          fill 
-          alt="banner" 
+        <Image
+          src="/images/home/1.png"
+          fill
+          alt="banner"
           className="object-cover"
           sizes="(max-width: 640px) 100vw, (max-width: 768px) 100vw, (max-width: 1024px) 100vw, 100vw"
           priority

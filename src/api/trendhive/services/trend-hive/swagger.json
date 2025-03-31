@@ -1,0 +1,405 @@
+{
+  "components": {
+    "schemas": {
+      "AdminLoginDto": {
+        "properties": {
+          "email": {
+            "description": "The email of the admin",
+            "example": "admin@example.com",
+            "type": "string"
+          },
+          "password": {
+            "description": "The password of the admin",
+            "example": "Admin@123",
+            "minLength": 6,
+            "type": "string"
+          }
+        },
+        "required": ["email", "password"],
+        "type": "object"
+      },
+      "AuthResponseDto": {
+        "properties": {
+          "message": {
+            "description": "Email shared successfully",
+            "example": "Email sent message",
+            "type": "string"
+          },
+          "success": {
+            "description": "Success or not",
+            "example": "Login",
+            "type": "boolean"
+          },
+          "userId": {
+            "description": "User ID (optional)",
+            "example": 12345,
+            "type": "number"
+          }
+        },
+        "required": ["success", "message"],
+        "type": "object"
+      },
+      "CheckUserResponseDto": {
+        "properties": {
+          "data": {
+            "description": "shared message",
+            "example": "User details",
+            "type": "object"
+          },
+          "message": {
+            "description": "email is verified",
+            "example": "Email is verified",
+            "type": "string"
+          },
+          "verified": {
+            "description": "status",
+            "example": true,
+            "type": "boolean"
+          }
+        },
+        "required": ["data", "message", "verified"],
+        "type": "object"
+      },
+      "ConfirmationEmailResponseDto": {
+        "properties": {
+          "message": {
+            "description": "shared message",
+            "example": "email shared sucessfully",
+            "type": "string"
+          },
+          "status": {
+            "description": "status",
+            "example": true,
+            "type": "boolean"
+          }
+        },
+        "required": ["message", "status"],
+        "type": "object"
+      },
+      "CreateUserDto": {
+        "properties": {
+          "email": {
+            "description": "This is the email of the user",
+            "example": "test@email.com",
+            "type": "string"
+          },
+          "firbaseId": {
+            "description": "Users firbase uid",
+            "example": "123432234gdd",
+            "type": "string"
+          },
+          "isEmailVerified": {
+            "description": "Email is verified or not",
+            "example": false,
+            "type": "boolean"
+          },
+          "name": {
+            "description": "This is the name of the user",
+            "example": "John ddoe",
+            "type": "string"
+          },
+          "password": {
+            "description": "Ths is the password of the user",
+            "example": "password",
+            "type": "string"
+          },
+          "phoneNumber": {
+            "description": "Users phone number",
+            "example": "98782435546",
+            "type": "string"
+          }
+        },
+        "required": ["name", "email", "password", "isEmailVerified", "phoneNumber", "firbaseId"],
+        "type": "object"
+      },
+      "LoginDto": {
+        "properties": {
+          "email": {
+            "description": "The email of the user",
+            "example": "test@example.com",
+            "type": "string"
+          },
+          "password": {
+            "description": "The password of the user",
+            "example": "test@examle.com",
+            "type": "string"
+          }
+        },
+        "required": ["email", "password"],
+        "type": "object"
+      },
+      "PartialTypeClass": {
+        "properties": {},
+        "type": "object"
+      },
+      "UpdateAddressRequestDto": {
+        "properties": {
+          "address": {
+            "description": "Street address of the user",
+            "example": "123 Main St",
+            "type": "string"
+          },
+          "city": {
+            "description": "City of the user",
+            "example": "New York",
+            "type": "string"
+          },
+          "country": {
+            "description": "country of the user",
+            "example": "India",
+            "type": "string"
+          },
+          "isDefault": {
+            "description": "Indicates if this is the default user",
+            "example": true,
+            "type": "boolean"
+          },
+          "phoneNumber": {
+            "description": "Phone number associated with the user",
+            "example": "+1-555-123-4567",
+            "type": "string"
+          },
+          "state": {
+            "description": "State of the user",
+            "example": "NY",
+            "type": "string"
+          },
+          "zipCode": {
+            "description": "ZIP code of the user",
+            "example": "10001",
+            "type": "string"
+          }
+        },
+        "type": "object"
+      }
+    },
+    "securitySchemes": {
+      "JWT-auth": {
+        "bearerFormat": "JWT",
+        "scheme": "bearer",
+        "type": "http"
+      }
+    }
+  },
+  "info": {
+    "contact": {},
+    "description": "API documentation for the trend-hive-api",
+    "title": "Trend-hive-api",
+    "version": "1.0"
+  },
+  "openapi": "3.0.0",
+  "paths": {
+    "/": {
+      "get": {
+        "operationId": "AppController_getHello",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": ["App"]
+      }
+    },
+    "/address/update-address/{token}": {
+      "patch": {
+        "operationId": "AddressController_updateUserDetails",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "token",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAddressRequestDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PartialTypeClass"
+                }
+              }
+            },
+            "description": "Returns the updated partial user entity"
+          }
+        },
+        "summary": "Update user details during onboarding",
+        "tags": ["Address"]
+      }
+    },
+    "/admin/login": {
+      "post": {
+        "operationId": "AdminController_login",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AdminLoginDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "logged in succesfully"
+          }
+        },
+        "summary": "admin login",
+        "tags": ["admin"]
+      }
+    },
+    "/auth/check-user/{firebaseId}": {
+      "get": {
+        "operationId": "AuthController_checkUser",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "firebaseId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CheckUserResponseDto"
+                }
+              }
+            },
+            "description": "User Verified"
+          }
+        },
+        "summary": "Check if the user is verified or not",
+        "tags": ["auth"]
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "operationId": "AuthController_login",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthResponseDto"
+                }
+              }
+            },
+            "description": "Login successful"
+          }
+        },
+        "summary": "Login in a user",
+        "tags": ["auth"]
+      }
+    },
+    "/auth/resend-confirm-email/{id}": {
+      "post": {
+        "operationId": "AuthController_resendConfirmationEmail",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConfirmationEmailResponseDto"
+                }
+              }
+            },
+            "description": "Email shared successfully."
+          }
+        },
+        "summary": "Resend confirmation email",
+        "tags": ["auth"]
+      }
+    },
+    "/auth/signup": {
+      "post": {
+        "operationId": "AuthController_signup",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateUserDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthResponseDto"
+                }
+              }
+            },
+            "description": "User created"
+          }
+        },
+        "summary": "Register a new user",
+        "tags": ["auth"]
+      }
+    },
+    "/users/profile": {
+      "get": {
+        "operationId": "UsersController_getProfile",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "JWT-auth": []
+          }
+        ],
+        "summary": "Get user profile",
+        "tags": ["Users"]
+      }
+    }
+  },
+  "servers": [],
+  "tags": []
+}
