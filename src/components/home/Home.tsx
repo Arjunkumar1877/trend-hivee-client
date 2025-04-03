@@ -38,7 +38,7 @@ const Home = () => {
         />
 
         {/* Text Container */}
-        <div className="absolute inset-0 flex flex-col items-center justify-end pb-6 sm:pb-8 md:pb-10 lg:pb-12 z-50">
+        <div className="absolute inset-0 flex flex-col items-center justify-end pb-6 sm:pb-8 md:pb-10 lg:pb-12">
           {/* Main Heading */}
           <h1 className="font-[Agatho] font-normal text-[1.5rem] xs:text-2xl sm:text-3xl md:text-4xl lg:text-[4.0625rem] leading-tight tracking-[0.1em] text-center text-white px-4 sm:px-6 max-w-[90%] sm:max-w-4xl mb-2 sm:mb-3 md:mb-4">
             Elegant Floral Abaya
