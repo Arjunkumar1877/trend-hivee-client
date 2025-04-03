@@ -40,7 +40,7 @@ const Bottom = () => {
     <>
       {/* Top Navbar */}
       <Menubar
-        className={`bg-[${home ? 'rgba(95,106,72,0.2)' : '#5F6A48'}] rounded-none fixed h-[1rem] w-full flex justify-between px-6 py-6.5 border-none backdrop-blur-md`}
+        className={`bg-[${home ? 'rgba(95,106,72,0.2)' : '#5F6A48'}] rounded-none fixed h-[1rem] w-full flex justify-between px-6 py-6.5 border-none backdrop-blur-md z-50`}
       >
         {/* Logo Section */}
         <div className="text-white text-xl font-bold">Logo</div>
@@ -49,7 +49,7 @@ const Bottom = () => {
         <div className="gap-10 hidden md:flex">
           {[
             { label: 'Home', href: '/' },
-            { label: 'New Arrival', href: '/newarrival' },
+            { label: 'New Arrival', href: '/products' },
             { label: 'Trending', href: '/trending' },
             { label: 'About Us', href: '/aboutus' },
             { label: 'Contact Us', href: '/contactus' },
@@ -85,13 +85,13 @@ const Bottom = () => {
       {showSideNav && (
         <Menubar
           ref={sideNavRef}
-          className={`bg-[${home ? 'rgba(95,106,72,0.2)' : '#5F6A48'}] rounded-none fixed bottom-0 left-0 h-[82.5%] w-[250px] flex flex-col items-start px-6 py-8 border-none backdrop-blur-md`}
+          className={`bg-[${home ? 'rgba(95,106,72,0.2)' : '#5F6A48'}] rounded-none fixed bottom-0 left-0 h-[82.5%] w-[250px] flex flex-col items-start px-6 py-8 border-none backdrop-blur-xs z-50`}
         >
           {/* Navigation Links */}
           <div className="flex flex-col gap-6">
             {[
               { label: 'Home', href: '/' },
-              { label: 'New Arrival', href: '/newarrival' },
+              { label: 'New Arrival', href: '/products' },
               { label: 'Trending', href: '/trending' },
               { label: 'About Us', href: '/aboutus' },
               { label: 'Contact Us', href: '/contactus' },
