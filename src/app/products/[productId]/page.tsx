@@ -127,7 +127,7 @@ const ProductDetails = () => {
                     alt={`Related Product ${index + 1}`}
                     className="w-full h-full object-cover"
                   />
-                  <button className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-[#5F6A48] text-white px-6 py-2">
+                  <button className="absolute bottom-20 w-[50%] left-1/2 transform -translate-x-1/2 bg-[#5F6A48] text-white px-6 py-2">
                     VIEW
                   </button>
                 </div>
