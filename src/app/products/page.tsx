@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import PageLayout from '@/components/pageLayout/PageLayout'
 import { Checkbox } from '@/components/ui/checkbox';
 import { Slider } from '@/components/ui/slider';
+import Link from 'next/link';
 
 interface Product {
   id: number;
@@ -34,35 +35,35 @@ const ProductsPage = () => {
       image: '/images/product_list/1.png'
     },
     {
-        id: 1,
+        id: 2,
         name: 'Criss Cross Hijab Undercap',
         price: 65.00,
         originalPrice: 85.00,
         image: '/images/product_list/2.png'
       },
       {
-        id: 1,
+        id: 3,
         name: 'Criss Cross Hijab Undercap',
         price: 65.00,
         originalPrice: 85.00,
         image: '/images/product_list/3.png'
       },
       {
-        id: 1,
+        id: 4,
         name: 'Criss Cross Hijab Undercap',
         price: 65.00,
         originalPrice: 85.00,
         image: '/images/product_list/4.png'
       },
       {
-        id: 1,
+        id: 5,
         name: 'Criss Cross Hijab Undercap',
         price: 65.00,
         originalPrice: 85.00,
         image: '/images/product_list/5.png'
       },
       {
-        id: 1,
+        id: 6,
         name: 'Criss Cross Hijab Undercap',
         price: 65.00,
         originalPrice: 85.00,
@@ -148,6 +149,7 @@ const ProductsPage = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {products.map((product) => (
+              <Link href={`/products/${product.id}`}>
                 <div key={product.id} className="group relative">
                   <div className="aspect-h-4 aspect-w-3 overflow-hidden rounded-none bg-gray-100">
                     <img
@@ -173,6 +175,7 @@ const ProductsPage = () => {
                     </div>
                   </div>
                 </div>
+              </Link>
               ))}
             </div>
           </div>
