@@ -39,6 +39,10 @@
         "required": ["success", "message"],
         "type": "object"
       },
+      "Category": {
+        "properties": {},
+        "type": "object"
+      },
       "CheckUserResponseDto": {
         "properties": {
           "data": {
@@ -74,6 +78,45 @@
           }
         },
         "required": ["message", "status"],
+        "type": "object"
+      },
+      "CreateCategoryDto": {
+        "properties": {
+          "description": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": ["name"],
+        "type": "object"
+      },
+      "CreateProductDto": {
+        "properties": {
+          "availableQuantity": {
+            "type": "number"
+          },
+          "categoryId": {
+            "type": "number"
+          },
+          "description": {
+            "type": "string"
+          },
+          "images": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "name": {
+            "type": "string"
+          },
+          "price": {
+            "type": "number"
+          }
+        },
+        "required": ["name", "price", "description", "categoryId", "availableQuantity"],
         "type": "object"
       },
       "CreateUserDto": {
@@ -132,6 +175,10 @@
         "properties": {},
         "type": "object"
       },
+      "Product": {
+        "properties": {},
+        "type": "object"
+      },
       "UpdateAddressRequestDto": {
         "properties": {
           "address": {
@@ -168,6 +215,43 @@
             "description": "ZIP code of the user",
             "example": "10001",
             "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "UpdateCategoryDto": {
+        "properties": {
+          "description": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "UpdateProductDto": {
+        "properties": {
+          "availableQuantity": {
+            "type": "number"
+          },
+          "categoryId": {
+            "type": "number"
+          },
+          "description": {
+            "type": "string"
+          },
+          "images": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "name": {
+            "type": "string"
+          },
+          "price": {
+            "type": "number"
           }
         },
         "type": "object"
@@ -379,6 +463,280 @@
         },
         "summary": "Register a new user",
         "tags": ["auth"]
+      }
+    },
+    "/categories": {
+      "get": {
+        "operationId": "CategoriesController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/Category"
+                  },
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Return all categories"
+          }
+        },
+        "summary": "Get all categories",
+        "tags": ["categories"]
+      },
+      "post": {
+        "operationId": "CategoriesController_create",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateCategoryDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Category"
+                }
+              }
+            },
+            "description": "Category created successfully"
+          }
+        },
+        "summary": "Create a new category",
+        "tags": ["categories"]
+      }
+    },
+    "/categories/{id}": {
+      "delete": {
+        "operationId": "CategoriesController_remove",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Category deleted successfully"
+          }
+        },
+        "summary": "Delete a category",
+        "tags": ["categories"]
+      },
+      "get": {
+        "operationId": "CategoriesController_findOne",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Category"
+                }
+              }
+            },
+            "description": "Return the category"
+          }
+        },
+        "summary": "Get a category by id",
+        "tags": ["categories"]
+      },
+      "patch": {
+        "operationId": "CategoriesController_update",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateCategoryDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Category"
+                }
+              }
+            },
+            "description": "Category updated successfully"
+          }
+        },
+        "summary": "Update a category",
+        "tags": ["categories"]
+      }
+    },
+    "/products": {
+      "get": {
+        "operationId": "ProductsController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/Product"
+                  },
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Return all products"
+          }
+        },
+        "summary": "Get all products",
+        "tags": ["products"]
+      },
+      "post": {
+        "operationId": "ProductsController_create",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateProductDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Product"
+                }
+              }
+            },
+            "description": "Product created successfully"
+          }
+        },
+        "summary": "Create a new product",
+        "tags": ["products"]
+      }
+    },
+    "/products/{id}": {
+      "delete": {
+        "operationId": "ProductsController_remove",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Product deleted successfully"
+          }
+        },
+        "summary": "Delete a product",
+        "tags": ["products"]
+      },
+      "get": {
+        "operationId": "ProductsController_findOne",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Product"
+                }
+              }
+            },
+            "description": "Return the product"
+          }
+        },
+        "summary": "Get a product by id",
+        "tags": ["products"]
+      },
+      "patch": {
+        "operationId": "ProductsController_update",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateProductDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Product"
+                }
+              }
+            },
+            "description": "Product updated successfully"
+          }
+        },
+        "summary": "Update a product",
+        "tags": ["products"]
       }
     },
     "/users/profile": {
