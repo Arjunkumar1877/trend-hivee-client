@@ -9,6 +9,8 @@ import { AddressService } from './services/AddressService'
 import { AdminService } from './services/AdminService'
 import { AppService } from './services/AppService'
 import { AuthService } from './services/AuthService'
+import { CategoriesService } from './services/CategoriesService'
+import { ProductsService } from './services/ProductsService'
 import { UsersService } from './services/UsersService'
 type HttpRequestConstructor = new (config: OpenAPIConfig) => BaseHttpRequest
 export class TrendHiveTrendhiveApi {
@@ -16,6 +18,8 @@ export class TrendHiveTrendhiveApi {
   public readonly admin: AdminService
   public readonly app: AppService
   public readonly auth: AuthService
+  public readonly categories: CategoriesService
+  public readonly products: ProductsService
   public readonly users: UsersService
   public readonly request: BaseHttpRequest
   constructor(
@@ -37,6 +41,8 @@ export class TrendHiveTrendhiveApi {
     this.admin = new AdminService(this.request)
     this.app = new AppService(this.request)
     this.auth = new AuthService(this.request)
+    this.categories = new CategoriesService(this.request)
+    this.products = new ProductsService(this.request)
     this.users = new UsersService(this.request)
   }
 }

@@ -317,7 +317,7 @@ export const request = <T>(
         const body = getRequestBody(options)
         const headers = await getHeaders(config, options)
 
-        if (!onCancel) {
+        if (!onCancel.isCancelled) {
           const response = await sendRequest(
             config,
             options,
