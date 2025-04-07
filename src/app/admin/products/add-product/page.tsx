@@ -11,6 +11,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Label } from '@/components/ui/label'
+import { useGetCategories } from '@/api/query/admin/useGetCategories'
 
 const categories = ['Electronics', 'Fashion', 'Home Appliances', 'Beauty', 'Books', 'Sports']
 
@@ -25,6 +26,12 @@ export default function AddProductForm() {
   const onSubmit = (data: any) => {
     console.log(data)
   }
+
+  const cat = useGetCategories();
+
+  console.log(cat)
+
+
 
   return (
     <div className="p-6">
@@ -65,9 +72,9 @@ export default function AddProductForm() {
               <SelectValue placeholder="Select a category" />
             </SelectTrigger>
             <SelectContent>
-              {categories.map((category) => (
-                <SelectItem key={category} value={category}>
-                  {category}
+              { cat &&  cat.data && cat.data.map((category: any) => (
+                <SelectItem key={category.id} value={category.id}>
+                  {category.name}
                 </SelectItem>
               ))}
             </SelectContent>

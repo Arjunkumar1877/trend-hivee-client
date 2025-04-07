@@ -2,6 +2,7 @@
 import React from 'react'
 import PageLayout from '@/components/pageLayout/PageLayout'
 import { FiTrash2 } from 'react-icons/fi'
+import { useRouter } from 'next/navigation'
 
 interface CartItem {
   id: number
@@ -61,7 +62,7 @@ const CartPage = () => {
   const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0)
   const discount = 0 // You can calculate discount here
   const grandTotal = subtotal - discount
-
+  const router = useRouter()
   return (
     <PageLayout footer>
       <div className="container mx-auto px-4 py-8">
@@ -134,7 +135,7 @@ const CartPage = () => {
                 <p className="text-sm text-gray-500">
                   Shipping, taxes, and discount codes calculated at checkout.
                 </p>
-                <button className="w-full bg-[#5F6A48] text-white py-3 rounded">
+                <button onClick={()=> router.push('/checkout')} className="w-full bg-[#5F6A48] text-white py-3 rounded">
                   PROCEED TO CHECKOUT
                 </button>
                 <p className="text-sm text-center text-gray-600 mt-4">
