@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import { Menubar, MenubarMenu } from '@/components/ui/menubar'
 import Link from 'next/link'
 import { FiUser, FiHeart, FiSearch, FiShoppingCart, FiMenu } from 'react-icons/fi'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 
 const Bottom = () => {
   const [showSideNav, setShowSideNav] = useState<boolean>(false)
@@ -12,6 +12,7 @@ const Bottom = () => {
 
   const pathName = usePathname()
   const home = pathName === '/'
+  const router = useRouter()
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -69,7 +70,10 @@ const Bottom = () => {
           <FiSearch className="text-white hover:text-gray-300 cursor-pointer hidden md:block" />
           <FiUser className="text-white hover:text-gray-300 cursor-pointer hidden md:block" />
           <FiHeart className="text-white hover:text-gray-300 cursor-pointer hidden md:block" />
-          <FiShoppingCart className="text-white hover:text-gray-300 cursor-pointer hidden md:block" />
+          <FiShoppingCart
+            onClick={() => router.push('/cart')}
+            className="text-white hover:text-gray-300 cursor-pointer hidden md:block"
+          />
 
           {/* Menu Icon with ref */}
           <div ref={menuIconRef}>
@@ -108,13 +112,18 @@ const Bottom = () => {
 
           {/* Icons Section */}
           <div className="flex gap-6 mt-auto">
-            {[FiSearch, FiUser, FiHeart, FiShoppingCart].map((Icon, index) => (
+            {[FiSearch, FiUser, FiHeart].map((Icon, index) => (
               <Icon
                 key={index}
                 size="1.5rem"
                 className="text-white hover:text-gray-300 cursor-pointer"
               />
             ))}
+            <FiShoppingCart
+              onClick={() => router.push('/cart')}
+              size="1.5rem"
+              className="text-white hover:text-gray-300 cursor-pointer"
+            />
           </div>
         </Menubar>
       )}

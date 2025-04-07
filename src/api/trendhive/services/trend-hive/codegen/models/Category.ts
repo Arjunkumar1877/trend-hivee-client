@@ -2,4 +2,6 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type Category = {}
+export type Category = {
+  name(arg0: string, name: any): unknown
+}

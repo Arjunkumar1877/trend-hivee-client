@@ -15,7 +15,7 @@ const ProductDetails = () => {
           {/* Product Image */}
           <div className="relative">
             <img
-              src='/images/product_list/1.png'
+              src="/images/product_list/1.png"
               alt="Bandana Hijab Undercap"
               className="w-full h-auto"
             />
@@ -30,9 +30,9 @@ const ProductDetails = () => {
             </div>
 
             <p className="text-gray-600">
-              Made from an ultra soft and breathable premium jersey fabric, these
-              hijab undercaps are an essential to keep your Hijab in place. Designed
-              for maximum comfort, these hijab caps work well with all of our hijabs.
+              Made from an ultra soft and breathable premium jersey fabric, these hijab undercaps
+              are an essential to keep your Hijab in place. Designed for maximum comfort, these
+              hijab caps work well with all of our hijabs.
             </p>
 
             {/* Size Selection */}
@@ -59,9 +59,7 @@ const ProductDetails = () => {
 
             {/* Action Buttons */}
             <div className="flex gap-4">
-              <button className="bg-[#5F6A48] text-white px-8 py-3 flex-1">
-                ADD TO CART
-              </button>
+              <button className="bg-[#5F6A48] text-white px-8 py-3 flex-1">ADD TO CART</button>
               <button className="bg-gray-200 text-gray-800 px-8 py-3 flex gap-2 items-center">
                 <FiHeart />
                 ADD TO WISHLIST
@@ -97,7 +95,8 @@ const ProductDetails = () => {
               </Accordion>
               <Accordion title="DESCRIPTION &DETAIL">
                 <p className="text-sm text-gray-600">
-                  Premium quality abaya with elegant design and comfortable fit. Features cross-stitch detailing on sleeves.
+                  Premium quality abaya with elegant design and comfortable fit. Features
+                  cross-stitch detailing on sleeves.
                 </p>
               </Accordion>
               <Accordion title="MATERIAL & CARE ADVICE">
@@ -107,7 +106,8 @@ const ProductDetails = () => {
               </Accordion>
               <Accordion title="DELIVERY AND RETURNS">
                 <p className="text-sm text-gray-600">
-                  Free standard delivery on orders over £100. Returns accepted within 14 days of delivery.
+                  Free standard delivery on orders over £100. Returns accepted within 14 days of
+                  delivery.
                 </p>
               </Accordion>
             </div>
@@ -145,13 +145,7 @@ const ProductDetails = () => {
 }
 
 // Accordion Component
-const Accordion = ({
-  title,
-  children,
-}: {
-  title: string
-  children: React.ReactNode
-}) => {
+const Accordion = ({ title, children }: { title: string; children: React.ReactNode }) => {
   const [isOpen, setIsOpen] = useState(false)
 
   return (
@@ -161,9 +155,7 @@ const Accordion = ({
         onClick={() => setIsOpen(!isOpen)}
       >
         <span className="text-sm font-medium">{title}</span>
-        <span className="transform transition-transform">
-          {isOpen ? '−' : '+'}
-        </span>
+        <span className="transform transition-transform">{isOpen ? '−' : '+'}</span>
       </button>
       {isOpen && <div className="pb-4">{children}</div>}
     </div>

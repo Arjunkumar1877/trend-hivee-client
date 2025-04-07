@@ -10,7 +10,7 @@ export type CreateUserDto = {
   /**
    * Users firbase uid
    */
-  firbaseId: string
+  firbaseId?: string
   /**
    * Email is verified or not
    */

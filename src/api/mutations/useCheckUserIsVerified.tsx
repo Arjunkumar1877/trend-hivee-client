@@ -9,7 +9,7 @@ export function useCheckUserIsVerified() {
       const { firebaseId } = input
       const api = await getApi()
       const res = await api.trendHive.auth.authControllerCheckUser({
-        firebaseId: firebaseId
+        firebaseId: firebaseId,
       })
       return res.data
     },

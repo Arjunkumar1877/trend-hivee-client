@@ -51,7 +51,7 @@ export default function Signup() {
         isEmailVerified: false,
         name: data.name as string,
         password: data.password as string,
-        phoneNumber: data.phoneNumber as string
+        phoneNumber: data.phoneNumber as string,
       })
 
       toast(res.message)

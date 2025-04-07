@@ -20,7 +20,6 @@ const Bottom = () => {
   const sideNavRef = useRef<HTMLDivElement>(null)
   const menuIconRef = useRef<HTMLDivElement>(null)
 
-
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (

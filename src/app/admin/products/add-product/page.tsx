@@ -1,5 +1,6 @@
 'use client'
-import { useForm } from 'react-hook-form'
+
+import { useForm, Controller } from 'react-hook-form'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
@@ -11,85 +12,233 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Label } from '@/components/ui/label'
+import { useGetCategories } from '@/api/query/admin/useGetCategories'
+import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { ArrowLeft, Upload, Save } from 'lucide-react'
+import { cn } from '@/lib/utils'
+import Image from 'next/image'
 
-const categories = ['Electronics', 'Fashion', 'Home Appliances', 'Beauty', 'Books', 'Sports']
+interface ProductFormData {
+  name: string
+  description: string
+  price: number
+  category: string
+  categoryName?: string
+  image: FileList
+}
 
 export default function AddProductForm() {
   const {
     register,
     handleSubmit,
+    control,
     setValue,
-    formState: { errors },
-  } = useForm()
+    formState: { errors, isSubmitting },
+    watch,
+  } = useForm<ProductFormData>()
 
-  const onSubmit = (data: any) => {
-    console.log(data)
+  const [imagePreview, setImagePreview] = useState<string>('')
+  const cat = useGetCategories()
+  const router = useRouter()
+
+  useEffect(() => {
+    if (cat.data && cat.data.length > 0) return
+    router.push('/admin/products/add-category')
+  }, [cat.data, router])
+
+  const onSubmit = async (data: ProductFormData) => {
+    try {
+      // TODO: Add your API call here to create the product
+      console.log(data)
+      await new Promise((resolve) => setTimeout(resolve, 1000)) // Simulate API call
+      router.push('/admin/products')
+    } catch (error) {
+      console.error('Error creating product:', error)
+    }
+  }
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (file) {
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        setImagePreview(reader.result as string)
+      }
+      reader.readAsDataURL(file)
+    }
+  }
+
+  const handleCategoryChange = (value: string) => {
+    const selectedCategory = cat.data?.find((category: any) => category.id === value)
+    if (selectedCategory) {
+      setValue('category', value)
+      setValue('categoryName', selectedCategory.name as unknown as string)
+    }
   }
 
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-6">Add New Product</h1>
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-        <div>
-          <Label>Name</Label>
-          <Input {...register('name', { required: 'Product name is required' })} />
-          {errors.name && (
-            <span className="text-red-500 text-sm">{errors?.name?.message as string}</span>
-          )}
-        </div>
-
-        <div>
-          <Label>Description</Label>
-          <Textarea {...register('description', { required: 'Description is required' })} />
-          {errors.description && (
-            <span className="text-red-500 text-sm">{errors?.description?.message as string}</span>
-          )}
-        </div>
-
-        <div>
-          <Label>Price ($)</Label>
-          <Input
-            type="number"
-            step="0.01"
-            {...register('price', { required: 'Price is required', min: 0 })}
-          />
-          {errors.price && (
-            <span className="text-red-500 text-sm">{errors?.price?.message as string}</span>
-          )}
-        </div>
-
-        <div>
-          <Label>Category</Label>
-          <Select onValueChange={(value) => setValue('category', value)}>
-            <SelectTrigger>
-              <SelectValue placeholder="Select a category" />
-            </SelectTrigger>
-            <SelectContent>
-              {categories.map((category) => (
-                <SelectItem key={category} value={category}>
-                  {category}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-
-        <div>
-          <Label>Product Image</Label>
-          <Input
-            type="file"
-            accept="image/*"
-            {...register('image', { required: 'Image is required' })}
-          />
-          {errors.image && (
-            <span className="text-red-500 text-sm">{errors?.image?.message as string}</span>
-          )}
-        </div>
-
-        <Button type="submit" className="bg-green-600 text-white">
-          Add Product
+    <div className="p-6 max-w-4xl mx-auto">
+      <div className="mb-6">
+        <Button variant="ghost" className="gap-2" onClick={() => router.back()}>
+          <ArrowLeft className="h-4 w-4" />
+          Back to Products
         </Button>
-      </form>
+      </div>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Add New Product</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Left Column */}
+              <div className="space-y-6">
+                <div className="space-y-2">
+                  <Label htmlFor="name">Product Name</Label>
+                  <Input
+                    id="name"
+                    placeholder="Enter product name"
+                    {...register('name', { required: 'Product name is required' })}
+                    className={cn(errors.name && 'border-red-500')}
+                  />
+                  {errors.name && (
+                    <span className="text-red-500 text-sm">{errors.name.message}</span>
+                  )}
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="description">Description</Label>
+                  <Textarea
+                    id="description"
+                    placeholder="Enter product description"
+                    {...register('description', { required: 'Description is required' })}
+                    className={cn(errors.description && 'border-red-500')}
+                  />
+                  {errors.description && (
+                    <span className="text-red-500 text-sm">{errors.description.message}</span>
+                  )}
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="price">Price ($)</Label>
+                  <Input
+                    id="price"
+                    type="number"
+                    step="0.01"
+                    placeholder="0.00"
+                    {...register('price', {
+                      required: 'Price is required',
+                      min: { value: 0, message: 'Price must be greater than 0' },
+                    })}
+                    className={cn(errors.price && 'border-red-500')}
+                  />
+                  {errors.price && (
+                    <span className="text-red-500 text-sm">{errors.price.message}</span>
+                  )}
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="category">Category</Label>
+                  <Controller
+                    name="category"
+                    control={control}
+                    rules={{ required: 'Category is required' }}
+                    render={({ field }) => (
+                      <Select
+                        onValueChange={(value) => handleCategoryChange(value)}
+                        value={field.value}
+                      >
+                        <SelectTrigger className={cn(errors.category && 'border-red-500')}>
+                          <SelectValue placeholder="Select a category">
+                            {watch('categoryName') || 'Select a category'}
+                          </SelectValue>
+                        </SelectTrigger>
+                        <SelectContent>
+                          {cat?.data?.map((category: any) => (
+                            <SelectItem key={category.id} value={category.id}>
+                              {category.name}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    )}
+                  />
+                  {errors.category && (
+                    <span className="text-red-500 text-sm">{errors.category.message}</span>
+                  )}
+                </div>
+              </div>
+
+              {/* Right Column - Image Upload */}
+              <div className="space-y-6">
+                <div className="space-y-2">
+                  <Label>Product Image</Label>
+                  <div className="border-2 border-dashed rounded-lg p-6 text-center">
+                    {imagePreview ? (
+                      <div className="relative aspect-square">
+                        <Image
+                          src={imagePreview}
+                          alt="Preview"
+                          fill
+                          className="object-cover rounded-lg"
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        />
+                        <Button
+                          type="button"
+                          variant="destructive"
+                          size="sm"
+                          className="absolute top-2 right-2 z-10"
+                          onClick={() => setImagePreview('')}
+                        >
+                          Remove
+                        </Button>
+                      </div>
+                    ) : (
+                      <div className="space-y-2">
+                        <Upload className="h-8 w-8 mx-auto text-gray-400" />
+                        <div className="text-sm text-gray-600">
+                          <label
+                            htmlFor="image"
+                            className="relative cursor-pointer rounded-md font-medium text-primary hover:text-primary/80"
+                          >
+                            <span>Upload a file</span>
+                            <input
+                              id="image"
+                              type="file"
+                              accept="image/*"
+                              className="sr-only"
+                              {...register('image', { required: 'Image is required' })}
+                              onChange={handleImageChange}
+                            />
+                          </label>
+                          <p className="pl-1">or drag and drop</p>
+                        </div>
+                        <p className="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
+                      </div>
+                    )}
+                  </div>
+                  {errors.image && (
+                    <span className="text-red-500 text-sm">{errors.image.message}</span>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            <div className="flex justify-end gap-4 pt-6">
+              <Button type="button" variant="outline" onClick={() => router.back()}>
+                Cancel
+              </Button>
+              <Button type="submit" disabled={isSubmitting} className="gap-2">
+                <Save className="h-4 w-4" />
+                {isSubmitting ? 'Creating...' : 'Create Product'}
+              </Button>
+            </div>
+          </form>
+        </CardContent>
+      </Card>
     </div>
   )
 }
