@@ -16,7 +16,7 @@ const products = [
     image: '/images/home/featured/1.png',
     category: 'Electronics',
     stock: 15,
-    status: 'In Stock'
+    status: 'In Stock',
   },
   {
     id: 2,
@@ -26,7 +26,7 @@ const products = [
     image: '/images/home/featured/2.png',
     category: 'Clothing',
     stock: 8,
-    status: 'Low Stock'
+    status: 'Low Stock',
   },
   {
     id: 3,
@@ -36,7 +36,7 @@ const products = [
     image: '/images/home/featured/3.png',
     category: 'Accessories',
     stock: 0,
-    status: 'Out of Stock'
+    status: 'Out of Stock',
   },
   {
     id: 4,
@@ -46,7 +46,7 @@ const products = [
     image: '/images/home/featured/1.png',
     category: 'Electronics',
     stock: 20,
-    status: 'In Stock'
+    status: 'In Stock',
   },
   {
     id: 5,
@@ -56,7 +56,7 @@ const products = [
     image: '/images/home/featured/2.png',
     category: 'Clothing',
     stock: 12,
-    status: 'In Stock'
+    status: 'In Stock',
   },
   {
     id: 6,
@@ -66,7 +66,7 @@ const products = [
     image: '/images/home/featured/3.png',
     category: 'Accessories',
     stock: 5,
-    status: 'Low Stock'
+    status: 'Low Stock',
   },
 ]
 
@@ -117,10 +117,7 @@ export default function AdminProductsPage() {
         <div className="flex flex-col md:flex-row gap-4">
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
-            <Input
-              placeholder="Search products..."
-              className="pl-10 w-full"
-            />
+            <Input placeholder="Search products..." className="pl-10 w-full" />
           </div>
           <Button variant="outline" className="gap-2">
             <Filter className="h-4 w-4" />
@@ -131,15 +128,13 @@ export default function AdminProductsPage() {
         {/* Products Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {products.map((product) => (
-            <Card key={product.id} className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
+            <Card
+              key={product.id}
+              className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300"
+            >
               <CardHeader className="p-0">
                 <div className="relative h-48">
-                  <Image
-                    src={product.image}
-                    alt={product.name}
-                    fill
-                    className="object-cover"
-                  />
+                  <Image src={product.image} alt={product.name} fill className="object-cover" />
                   <Badge className={`absolute top-2 right-2 ${getStatusColor(product.status)}`}>
                     {product.status}
                   </Badge>
@@ -161,14 +156,14 @@ export default function AdminProductsPage() {
                 </div>
               </CardContent>
               <CardFooter className="p-4 pt-0 flex gap-2">
-                <Button 
+                <Button
                   className="flex-1 bg-blue-600 hover:bg-blue-700 text-white gap-2"
                   onClick={() => router.push(`/admin/products/edit/${product.id}`)}
                 >
                   <Edit className="h-4 w-4" />
                   Edit
                 </Button>
-                <Button 
+                <Button
                   className="flex-1 bg-red-600 hover:bg-red-700 text-white gap-2"
                   onClick={() => {
                     // Add delete confirmation logic here

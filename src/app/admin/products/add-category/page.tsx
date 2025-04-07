@@ -23,10 +23,10 @@ export default function AddCategoryPage() {
     try {
       // TODO: Add your API call here to create the category
       console.log('Creating category:', formData)
-      
+
       // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000))
-      
+      await new Promise((resolve) => setTimeout(resolve, 1000))
+
       // Reset form and redirect
       setFormData({ name: '', description: '' })
       router.push('/admin/products')
@@ -40,11 +40,7 @@ export default function AddCategoryPage() {
   return (
     <div className="p-6 max-w-2xl mx-auto">
       <div className="mb-6">
-        <Button
-          variant="ghost"
-          className="gap-2"
-          onClick={() => router.back()}
-        >
+        <Button variant="ghost" className="gap-2" onClick={() => router.back()}>
           <ArrowLeft className="h-4 w-4" />
           Back to Products
         </Button>
@@ -67,9 +63,7 @@ export default function AddCategoryPage() {
                 id="name"
                 placeholder="Enter category name"
                 value={formData.name}
-                onChange={(e) =>
-                  setFormData((prev) => ({ ...prev, name: e.target.value }))
-                }
+                onChange={(e) => setFormData((prev) => ({ ...prev, name: e.target.value }))}
                 required
               />
             </div>
@@ -85,20 +79,14 @@ export default function AddCategoryPage() {
                 id="description"
                 placeholder="Enter category description"
                 value={formData.description}
-                onChange={(e) =>
-                  setFormData((prev) => ({ ...prev, description: e.target.value }))
-                }
+                onChange={(e) => setFormData((prev) => ({ ...prev, description: e.target.value }))}
                 required
                 className="min-h-[100px]"
               />
             </div>
 
             <div className="flex justify-end gap-4">
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => router.back()}
-              >
+              <Button type="button" variant="outline" onClick={() => router.back()}>
                 Cancel
               </Button>
               <Button type="submit" disabled={isLoading} className="gap-2">
@@ -111,4 +99,4 @@ export default function AddCategoryPage() {
       </Card>
     </div>
   )
-} 
+}

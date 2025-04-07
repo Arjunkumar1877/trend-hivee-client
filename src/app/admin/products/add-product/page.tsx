@@ -18,6 +18,7 @@ import { useRouter } from 'next/navigation'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { ArrowLeft, Upload, Save } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import Image from 'next/image'
 
 interface ProductFormData {
   name: string
@@ -51,7 +52,7 @@ export default function AddProductForm() {
     try {
       // TODO: Add your API call here to create the product
       console.log(data)
-      await new Promise(resolve => setTimeout(resolve, 1000)) // Simulate API call
+      await new Promise((resolve) => setTimeout(resolve, 1000)) // Simulate API call
       router.push('/admin/products')
     } catch (error) {
       console.error('Error creating product:', error)
@@ -73,18 +74,14 @@ export default function AddProductForm() {
     const selectedCategory = cat.data?.find((category: any) => category.id === value)
     if (selectedCategory) {
       setValue('category', value)
-      setValue('categoryName', selectedCategory.name)
+      setValue('categoryName', selectedCategory.name as unknown as string)
     }
   }
 
   return (
     <div className="p-6 max-w-4xl mx-auto">
       <div className="mb-6">
-        <Button
-          variant="ghost"
-          className="gap-2"
-          onClick={() => router.back()}
-        >
+        <Button variant="ghost" className="gap-2" onClick={() => router.back()}>
           <ArrowLeft className="h-4 w-4" />
           Back to Products
         </Button>
@@ -134,7 +131,7 @@ export default function AddProductForm() {
                     placeholder="0.00"
                     {...register('price', {
                       required: 'Price is required',
-                      min: { value: 0, message: 'Price must be greater than 0' }
+                      min: { value: 0, message: 'Price must be greater than 0' },
                     })}
                     className={cn(errors.price && 'border-red-500')}
                   />
@@ -182,16 +179,18 @@ export default function AddProductForm() {
                   <div className="border-2 border-dashed rounded-lg p-6 text-center">
                     {imagePreview ? (
                       <div className="relative aspect-square">
-                        <img
+                        <Image
                           src={imagePreview}
                           alt="Preview"
+                          fill
                           className="object-cover rounded-lg"
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         />
                         <Button
                           type="button"
                           variant="destructive"
                           size="sm"
-                          className="absolute top-2 right-2"
+                          className="absolute top-2 right-2 z-10"
                           onClick={() => setImagePreview('')}
                         >
                           Remove
@@ -229,18 +228,10 @@ export default function AddProductForm() {
             </div>
 
             <div className="flex justify-end gap-4 pt-6">
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => router.back()}
-              >
+              <Button type="button" variant="outline" onClick={() => router.back()}>
                 Cancel
               </Button>
-              <Button
-                type="submit"
-                disabled={isSubmitting}
-                className="gap-2"
-              >
+              <Button type="submit" disabled={isSubmitting} className="gap-2">
                 <Save className="h-4 w-4" />
                 {isSubmitting ? 'Creating...' : 'Create Product'}
               </Button>

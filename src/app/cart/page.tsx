@@ -21,42 +21,40 @@ const CartPage = () => {
       name: 'This is a sample text',
       color: 'Black',
       size: '56',
-      price: 20.00,
+      price: 20.0,
       quantity: 1,
-      image: '/images/product_list/1.png'
+      image: '/images/product_list/1.png',
     },
     {
       id: 2,
       name: 'This is a sample text',
       color: 'Black',
       size: '56',
-      price: 20.00,
+      price: 20.0,
       quantity: 1,
-      image: '/images/product_list/2.png'
+      image: '/images/product_list/2.png',
     },
     {
       id: 3,
       name: 'This is a sample text',
       color: 'Black',
       size: '56',
-      price: 20.00,
+      price: 20.0,
       quantity: 1,
-      image: '/images/product_list/3.png'
-    }
+      image: '/images/product_list/3.png',
+    },
   ])
 
   const updateQuantity = (id: number, newQuantity: number) => {
     if (newQuantity >= 1) {
-      setCartItems(items =>
-        items.map(item =>
-          item.id === id ? { ...item, quantity: newQuantity } : item
-        )
+      setCartItems((items) =>
+        items.map((item) => (item.id === id ? { ...item, quantity: newQuantity } : item))
       )
     }
   }
 
   const removeItem = (id: number) => {
-    setCartItems(items => items.filter(item => item.id !== id))
+    setCartItems((items) => items.filter((item) => item.id !== id))
   }
 
   const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0)
@@ -73,11 +71,7 @@ const CartPage = () => {
           <div className="lg:col-span-2 space-y-4">
             {cartItems.map((item) => (
               <div key={item.id} className="flex gap-4 p-4 border rounded-lg">
-                <img
-                  src={item.image}
-                  alt={item.name}
-                  className="w-24 h-32 object-cover"
-                />
+                <img src={item.image} alt={item.name} className="w-24 h-32 object-cover" />
                 <div className="flex-1">
                   <div className="flex justify-between">
                     <div>
@@ -135,12 +129,13 @@ const CartPage = () => {
                 <p className="text-sm text-gray-500">
                   Shipping, taxes, and discount codes calculated at checkout.
                 </p>
-                <button onClick={()=> router.push('/checkout')} className="w-full bg-[#5F6A48] text-white py-3 rounded">
+                <button
+                  onClick={() => router.push('/checkout')}
+                  className="w-full bg-[#5F6A48] text-white py-3 rounded"
+                >
                   PROCEED TO CHECKOUT
                 </button>
-                <p className="text-sm text-center text-gray-600 mt-4">
-                  100% Secure Checkout.
-                </p>
+                <p className="text-sm text-center text-gray-600 mt-4">100% Secure Checkout.</p>
               </div>
             </div>
           </div>
@@ -150,4 +145,4 @@ const CartPage = () => {
   )
 }
 
-export default CartPage 
+export default CartPage

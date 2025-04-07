@@ -9,7 +9,7 @@ export function useSignup() {
     mutationFn: async (data: CreateUserDto) => {
       const api = await getTrendHiveOpenApi()
       const res = api.trendHive.auth.authControllerSignup({
-        requestBody: data
+        requestBody: data,
       })
       return res
     },

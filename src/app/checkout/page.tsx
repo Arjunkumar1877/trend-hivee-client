@@ -1,8 +1,7 @@
 'use client'
 import React, { useState } from 'react'
 import PageLayout from '@/components/pageLayout/PageLayout'
-import Image from 'next/image'
-import { Checkbox } from "@/components/ui/checkbox"
+import { Checkbox } from '@/components/ui/checkbox'
 
 const CheckoutPage = () => {
   const [useSameAddress, setUseSameAddress] = useState(true)
@@ -16,11 +15,7 @@ const CheckoutPage = () => {
             {/* Contact Section */}
             <div>
               <h2 className="text-xl mb-4">Contact</h2>
-              <input
-                type="email"
-                placeholder="Email"
-                className="w-full p-3 border rounded-md"
-              />
+              <input type="email" placeholder="Email" className="w-full p-3 border rounded-md" />
             </div>
 
             {/* Delivery Section */}
@@ -33,42 +28,18 @@ const CheckoutPage = () => {
                 </select>
 
                 <div className="grid grid-cols-2 gap-4">
-                  <input
-                    type="text"
-                    placeholder="First name"
-                    className="p-3 border rounded-md"
-                  />
-                  <input
-                    type="text"
-                    placeholder="Last name"
-                    className="p-3 border rounded-md"
-                  />
+                  <input type="text" placeholder="First name" className="p-3 border rounded-md" />
+                  <input type="text" placeholder="Last name" className="p-3 border rounded-md" />
                 </div>
 
-                <input
-                  type="text"
-                  placeholder="Address"
-                  className="w-full p-3 border rounded-md"
-                />
+                <input type="text" placeholder="Address" className="w-full p-3 border rounded-md" />
 
                 <div className="grid grid-cols-2 gap-4">
-                  <input
-                    type="text"
-                    placeholder="City"
-                    className="p-3 border rounded-md"
-                  />
-                  <input
-                    type="text"
-                    placeholder="Postcode"
-                    className="p-3 border rounded-md"
-                  />
+                  <input type="text" placeholder="City" className="p-3 border rounded-md" />
+                  <input type="text" placeholder="Postcode" className="p-3 border rounded-md" />
                 </div>
 
-                <input
-                  type="tel"
-                  placeholder="Phone"
-                  className="w-full p-3 border rounded-md"
-                />
+                <input type="tel" placeholder="Phone" className="w-full p-3 border rounded-md" />
 
                 <div className="flex items-center gap-2">
                   <Checkbox id="save-info" />
@@ -129,16 +100,12 @@ const CheckoutPage = () => {
                     checked={!useSameAddress}
                     onChange={() => setUseSameAddress(false)}
                   />
-                  <label htmlFor="different-address">
-                    Use a different billing address
-                  </label>
+                  <label htmlFor="different-address">Use a different billing address</label>
                 </div>
               </div>
             </div>
 
-            <button className="w-full bg-[#5F6A48] text-white py-4 rounded-md">
-              CHECKOUT
-            </button>
+            <button className="w-full bg-[#5F6A48] text-white py-4 rounded-md">CHECKOUT</button>
           </div>
 
           {/* Right Column - Order Summary */}
@@ -191,9 +158,7 @@ const CheckoutPage = () => {
                   </div>
                 </div>
 
-                <p className="text-sm text-center text-gray-600">
-                  100% Safe and Secure Checkout.
-                </p>
+                <p className="text-sm text-center text-gray-600">100% Safe and Secure Checkout.</p>
 
                 {/* Payment Methods */}
                 <div className="flex justify-center gap-2 pt-4">
@@ -213,4 +178,4 @@ const CheckoutPage = () => {
   )
 }
 
-export default CheckoutPage 
+export default CheckoutPage

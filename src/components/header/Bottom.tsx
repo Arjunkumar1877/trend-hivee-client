@@ -70,9 +70,9 @@ const Bottom = () => {
           <FiSearch className="text-white hover:text-gray-300 cursor-pointer hidden md:block" />
           <FiUser className="text-white hover:text-gray-300 cursor-pointer hidden md:block" />
           <FiHeart className="text-white hover:text-gray-300 cursor-pointer hidden md:block" />
-          <FiShoppingCart 
+          <FiShoppingCart
             onClick={() => router.push('/cart')}
-            className="text-white hover:text-gray-300 cursor-pointer hidden md:block" 
+            className="text-white hover:text-gray-300 cursor-pointer hidden md:block"
           />
 
           {/* Menu Icon with ref */}

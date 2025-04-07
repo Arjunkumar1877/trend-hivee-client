@@ -1,5 +1,5 @@
-import { getTrendHiveOpenApi } from '@/api/trendhive/api';
-import { AdminLoginDto } from '@/api/trendhive/services/trend-hive/codegen';
+import { getTrendHiveOpenApi } from '@/api/trendhive/api'
+import { AdminLoginDto } from '@/api/trendhive/services/trend-hive/codegen'
 import { useMutation } from '@tanstack/react-query'
 
 export function useAdminLogin() {
@@ -8,7 +8,7 @@ export function useAdminLogin() {
       try {
         const api = await getTrendHiveOpenApi()
         const adminCreds = api.trendHive.admin.adminControllerLogin({
-          requestBody: args
+          requestBody: args,
         })
         return adminCreds
       } catch (error: any) {

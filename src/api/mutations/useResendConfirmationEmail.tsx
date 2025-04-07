@@ -1,15 +1,15 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { getTrendHiveOpenApi } from '../trendhive/api';
+import { getTrendHiveOpenApi } from '../trendhive/api'
 
 export function useResendConfirmationEmail() {
   const qc = useQueryClient()
 
   return useMutation({
     mutationFn: async (args: { id: string }) => {
-      const { id } = args;
+      const { id } = args
       const api = await getTrendHiveOpenApi()
       const res = await api.trendHive.auth.authControllerResendConfirmationEmail({
-        id: id
+        id: id,
       })
       return res
     },

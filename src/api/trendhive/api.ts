@@ -5,7 +5,6 @@ import { OpenAPIConfig, TrendHiveTrendhiveApi } from './services/trend-hive/code
 
 export const trendHiveUrl = process.env.NEXT_PUBLIC_API_URL ?? ''
 
-
 export function useFirebaseUser() {
   return useAuthControl((st: any) => st.user)
 }
@@ -49,8 +48,7 @@ function getTrendHiveAcceptHeader(opts: { version: number; accept: AcceptType })
   return [
     `application/com.teetime-v${opts.version}+${opts.accept}`,
     opts.accept === 'octet-stream' ? 'application/json' : '',
-  ]
-    .join(', ')
+  ].join(', ')
 }
 
 function createApi(opts?: CreateApiOptions & { headers?: Record<string, string> }) {
@@ -68,11 +66,10 @@ function createApi(opts?: CreateApiOptions & { headers?: Record<string, string> 
   }
 }
 
-
 export function apiFromToken(token: string, opts?: CreateApiOptions) {
   return {
     ...createApi({ config: { TOKEN: token, ...opts?.config }, ...opts }),
-    token
+    token,
   }
 }
 
@@ -83,7 +80,7 @@ function openApi(opts?: CreateApiOptions) {
 }
 
 export async function getApi(opts?: CreateApiOptions) {
-  const token =  await getFirebaseUser().getIdToken()
+  const token = await getFirebaseUser().getIdToken()
 
   if (!token) throw new Error('token_not_found')
 
@@ -93,10 +90,9 @@ export async function getApi(opts?: CreateApiOptions) {
 export function trendHiveApiFromToken(token: string, opts?: CreateApiOptions) {
   return {
     ...createApi({ config: { TOKEN: token, ...opts?.config }, ...opts }),
-    token
+    token,
   }
 }
-
 
 export async function getTrendHiveOpenApi(opts?: CreateApiOptions) {
   return openApi(opts)
