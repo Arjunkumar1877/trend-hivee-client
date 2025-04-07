@@ -1,39 +1,49 @@
 'use client'
 
-import { useState } from 'react'
+import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { ArrowLeft, Save } from 'lucide-react'
+import { cn } from '@/lib/utils'
+import { useAddCategory } from '@/api/mutations/admin/useAddCategory'
+import { toast } from 'sonner'
+
+interface CategoryFormData {
+  name: string
+  description: string
+}
 
 export default function AddCategoryPage() {
   const router = useRouter()
-  const [formData, setFormData] = useState({
-    name: '',
-    description: '',
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<CategoryFormData>({
+    defaultValues: {
+      name: '',
+      description: '',
+    },
   })
-  const [isLoading, setIsLoading] = useState(false)
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsLoading(true)
-
+  const addCategory = useAddCategory()
+  const onSubmit = async (data: CategoryFormData) => {
     try {
-      // TODO: Add your API call here to create the category
-      console.log('Creating category:', formData)
+      console.log('Creating category:', data)
+      const res = await addCategory.mutateAsync(data)
+      console.log('res', res)
 
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1000))
-
-      // Reset form and redirect
-      setFormData({ name: '', description: '' })
-      router.push('/admin/products')
+      if (res) {
+        toast.success('Category created successfully')
+        router.push('/admin/products')
+      } else {
+        toast.error('Failed to create category')
+      }
     } catch (error) {
       console.error('Error creating category:', error)
-    } finally {
-      setIsLoading(false)
+      toast.error('Failed to create category')
     }
   }
 
@@ -51,7 +61,7 @@ export default function AddCategoryPage() {
           <CardTitle>Add New Category</CardTitle>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             <div className="space-y-2">
               <label
                 htmlFor="name"
@@ -62,10 +72,22 @@ export default function AddCategoryPage() {
               <Input
                 id="name"
                 placeholder="Enter category name"
-                value={formData.name}
-                onChange={(e) => setFormData((prev) => ({ ...prev, name: e.target.value }))}
-                required
+                {...register('name', {
+                  required: 'Category name is required',
+                  minLength: {
+                    value: 2,
+                    message: 'Category name must be at least 2 characters',
+                  },
+                  maxLength: {
+                    value: 50,
+                    message: 'Category name must be less than 50 characters',
+                  },
+                })}
+                className={cn(errors.name && 'border-red-500')}
               />
+              {errors.name && (
+                <span className="text-red-500 text-sm">{errors.name.message}</span>
+              )}
             </div>
 
             <div className="space-y-2">
@@ -78,20 +100,36 @@ export default function AddCategoryPage() {
               <Textarea
                 id="description"
                 placeholder="Enter category description"
-                value={formData.description}
-                onChange={(e) => setFormData((prev) => ({ ...prev, description: e.target.value }))}
-                required
-                className="min-h-[100px]"
+                {...register('description', {
+                  required: 'Description is required',
+                  minLength: {
+                    value: 10,
+                    message: 'Description must be at least 10 characters',
+                  },
+                  maxLength: {
+                    value: 500,
+                    message: 'Description must be less than 500 characters',
+                  },
+                })}
+                className={cn(
+                  'min-h-[100px]',
+                  errors.description && 'border-red-500'
+                )}
               />
+              {errors.description && (
+                <span className="text-red-500 text-sm">
+                  {errors.description.message}
+                </span>
+              )}
             </div>
 
             <div className="flex justify-end gap-4">
               <Button type="button" variant="outline" onClick={() => router.back()}>
                 Cancel
               </Button>
-              <Button type="submit" disabled={isLoading} className="gap-2">
+              <Button type="submit" disabled={isSubmitting} className="gap-2">
                 <Save className="h-4 w-4" />
-                {isLoading ? 'Creating...' : 'Create Category'}
+                {isSubmitting ? 'Creating...' : 'Create Category'}
               </Button>
             </div>
           </form>

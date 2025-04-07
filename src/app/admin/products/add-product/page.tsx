@@ -42,7 +42,7 @@ export default function AddProductForm() {
   const [imagePreview, setImagePreview] = useState<string>('')
   const cat = useGetCategories()
   const router = useRouter()
-
+  console.log(cat.data)
   useEffect(() => {
     if (cat.data && cat.data.length > 0) return
     router.push('/admin/products/add-category')

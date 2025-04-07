@@ -2,15 +2,15 @@ import { getTrendHiveOpenApi } from '@/api/trendhive/api'
 import { CreateCategoryDto } from '@/api/trendhive/services/trend-hive/codegen'
 import { useMutation } from '@tanstack/react-query'
 
-export function useAddProducts() {
+export function useAddCategory() {
   const mutation = useMutation({
     mutationFn: async (args: CreateCategoryDto) => {
       try {
         const api = await getTrendHiveOpenApi()
-        const adminCreds = api.trendHive.categories.categoriesControllerCreate({
+        const category = await api.trendHive.categories.categoriesControllerCreate({
           requestBody: args,
         })
-        return adminCreds
+        return category
       } catch (error: any) {
         throw new Error(error.message || 'Adding product failed')
       }

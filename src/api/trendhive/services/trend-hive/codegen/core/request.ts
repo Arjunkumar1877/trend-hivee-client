@@ -309,7 +309,7 @@ export const request = <T>(
     async (
       resolve: (arg0: any) => void,
       reject: (arg0: unknown) => void,
-      onCancel: { isCancelled: any }
+      onCancel: OnCancel
     ) => {
       try {
         const url = getUrl(config, options)
@@ -317,7 +317,7 @@ export const request = <T>(
         const body = getRequestBody(options)
         const headers = await getHeaders(config, options)
 
-        if (!onCancel) {
+        if (!onCancel.isCancelled) {
           const response = await sendRequest(
             config,
             options,
