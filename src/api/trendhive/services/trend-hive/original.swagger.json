@@ -258,7 +258,7 @@
       }
     },
     "securitySchemes": {
-      "JWT-auth": {
+      "bearer": {
         "bearerFormat": "JWT",
         "scheme": "bearer",
         "type": "http"
@@ -267,8 +267,8 @@
   },
   "info": {
     "contact": {},
-    "description": "API documentation for the trend-hive-api",
-    "title": "Trend-hive-api",
+    "description": "The Trend Hive API description",
+    "title": "Trend Hive API",
     "version": "1.0"
   },
   "openapi": "3.0.0",
@@ -737,6 +737,83 @@
         },
         "summary": "Update a product",
         "tags": ["products"]
+      }
+    },
+    "/upload": {
+      "post": {
+        "operationId": "AppController_uploadFile",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "type",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "properties": {
+                  "file": {
+                    "format": "binary",
+                    "type": "string"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": ["App"]
+      }
+    },
+    "/upload-multiple": {
+      "post": {
+        "operationId": "AppController_uploadFiles",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "type",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "properties": {
+                  "files": {
+                    "items": {
+                      "format": "binary",
+                      "type": "string"
+                    },
+                    "type": "array"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": ["App"]
       }
     },
     "/users/profile": {

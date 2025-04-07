@@ -16,7 +16,7 @@ import { useGetCategories } from '@/api/query/admin/useGetCategories'
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { ArrowLeft, Upload, Save } from 'lucide-react'
+import { ArrowLeft, Upload, Save, X } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import Image from 'next/image'
 
@@ -24,9 +24,16 @@ interface ProductFormData {
   name: string
   description: string
   price: number
+  quantity: number
   category: string
   categoryName?: string
-  image: FileList
+  images: FileList
+}
+
+interface ImagePreview {
+  id: string
+  url: string
+  file: File
 }
 
 export default function AddProductForm() {
@@ -39,10 +46,10 @@ export default function AddProductForm() {
     watch,
   } = useForm<ProductFormData>()
 
-  const [imagePreview, setImagePreview] = useState<string>('')
+  const [imagePreviews, setImagePreviews] = useState<ImagePreview[]>([])
   const cat = useGetCategories()
   const router = useRouter()
-  console.log(cat.data)
+  
   useEffect(() => {
     if (cat.data && cat.data.length > 0) return
     router.push('/admin/products/add-category')
@@ -60,14 +67,31 @@ export default function AddProductForm() {
   }
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
-    if (file) {
+    const files = e.target.files
+    if (!files) return
+    
+    const newPreviews: ImagePreview[] = []
+    
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i]
       const reader = new FileReader()
+      
       reader.onloadend = () => {
-        setImagePreview(reader.result as string)
+        const newPreview = {
+          id: `${Date.now()}-${i}`,
+          url: reader.result as string,
+          file: file
+        }
+        
+        setImagePreviews(prev => [...prev, newPreview])
       }
+      
       reader.readAsDataURL(file)
     }
+  }
+
+  const removeImage = (id: string) => {
+    setImagePreviews(prev => prev.filter(img => img.id !== id))
   }
 
   const handleCategoryChange = (value: string) => {
@@ -141,6 +165,25 @@ export default function AddProductForm() {
                 </div>
 
                 <div className="space-y-2">
+                  <Label htmlFor="quantity">Available Quantity</Label>
+                  <Input
+                    id="quantity"
+                    type="number"
+                    min="0"
+                    placeholder="0"
+                    {...register('quantity', {
+                      required: 'Quantity is required',
+                      min: { value: 0, message: 'Quantity must be greater than or equal to 0' },
+                      valueAsNumber: true,
+                    })}
+                    className={cn(errors.quantity && 'border-red-500')}
+                  />
+                  {errors.quantity && (
+                    <span className="text-red-500 text-sm">{errors.quantity.message}</span>
+                  )}
+                </div>
+
+                <div className="space-y-2">
                   <Label htmlFor="category">Category</Label>
                   <Controller
                     name="category"
@@ -175,42 +218,47 @@ export default function AddProductForm() {
               {/* Right Column - Image Upload */}
               <div className="space-y-6">
                 <div className="space-y-2">
-                  <Label>Product Image</Label>
+                  <Label>Product Images</Label>
                   <div className="border-2 border-dashed rounded-lg p-6 text-center">
-                    {imagePreview ? (
-                      <div className="relative aspect-square">
-                        <Image
-                          src={imagePreview}
-                          alt="Preview"
-                          fill
-                          className="object-cover rounded-lg"
-                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                        />
-                        <Button
-                          type="button"
-                          variant="destructive"
-                          size="sm"
-                          className="absolute top-2 right-2 z-10"
-                          onClick={() => setImagePreview('')}
-                        >
-                          Remove
-                        </Button>
+                    {imagePreviews.length > 0 ? (
+                      <div className="grid grid-cols-2 gap-4">
+                        {imagePreviews.map((preview) => (
+                          <div key={preview.id} className="relative aspect-square">
+                            <Image
+                              src={preview.url}
+                              alt="Preview"
+                              fill
+                              className="object-cover rounded-lg"
+                              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                            />
+                            <Button
+                              type="button"
+                              variant="destructive"
+                              size="sm"
+                              className="absolute top-2 right-2 z-10"
+                              onClick={() => removeImage(preview.id)}
+                            >
+                              <X className="h-4 w-4" />
+                            </Button>
+                          </div>
+                        ))}
                       </div>
                     ) : (
                       <div className="space-y-2">
                         <Upload className="h-8 w-8 mx-auto text-gray-400" />
                         <div className="text-sm text-gray-600">
                           <label
-                            htmlFor="image"
+                            htmlFor="images"
                             className="relative cursor-pointer rounded-md font-medium text-primary hover:text-primary/80"
                           >
-                            <span>Upload a file</span>
+                            <span>Upload files</span>
                             <input
-                              id="image"
+                              id="images"
                               type="file"
                               accept="image/*"
+                              multiple
                               className="sr-only"
-                              {...register('image', { required: 'Image is required' })}
+                              {...register('images', { required: 'At least one image is required' })}
                               onChange={handleImageChange}
                             />
                           </label>
@@ -220,8 +268,8 @@ export default function AddProductForm() {
                       </div>
                     )}
                   </div>
-                  {errors.image && (
-                    <span className="text-red-500 text-sm">{errors.image.message}</span>
+                  {errors.images && (
+                    <span className="text-red-500 text-sm">{errors.images.message}</span>
                   )}
                 </div>
               </div>
@@ -242,3 +290,4 @@ export default function AddProductForm() {
     </div>
   )
 }
+
