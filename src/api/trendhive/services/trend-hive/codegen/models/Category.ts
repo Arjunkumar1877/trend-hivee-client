@@ -3,5 +3,5 @@
 /* tslint:disable */
 /* eslint-disable */
 export type Category = {
-  name: unknown;
+  name: unknown
 }

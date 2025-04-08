@@ -85,9 +85,7 @@ export default function AddCategoryPage() {
                 })}
                 className={cn(errors.name && 'border-red-500')}
               />
-              {errors.name && (
-                <span className="text-red-500 text-sm">{errors.name.message}</span>
-              )}
+              {errors.name && <span className="text-red-500 text-sm">{errors.name.message}</span>}
             </div>
 
             <div className="space-y-2">
@@ -111,15 +109,10 @@ export default function AddCategoryPage() {
                     message: 'Description must be less than 500 characters',
                   },
                 })}
-                className={cn(
-                  'min-h-[100px]',
-                  errors.description && 'border-red-500'
-                )}
+                className={cn('min-h-[100px]', errors.description && 'border-red-500')}
               />
               {errors.description && (
-                <span className="text-red-500 text-sm">
-                  {errors.description.message}
-                </span>
+                <span className="text-red-500 text-sm">{errors.description.message}</span>
               )}
             </div>
 

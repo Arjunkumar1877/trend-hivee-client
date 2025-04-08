@@ -4,16 +4,18 @@ import { useMutation } from '@tanstack/react-query'
 
 export function useUploadAFile() {
   const mutation = useMutation({
-    mutationFn: async (args: {  formData: {
+    mutationFn: async (args: {
+      formData: {
         file?: Blob
       }
-      type?: string}) => {
+      type?: string
+    }) => {
       try {
         const { formData, type } = args
         const api = await getTrendHiveOpenApi()
         const category = await api.trendHive.app.appControllerUploadFile({
-            formData: formData,
-            type: type
+          formData: formData,
+          type: type,
         })
         return category
       } catch (error: any) {
@@ -31,33 +33,32 @@ export function useUploadAFile() {
   return mutation
 }
 
-
-
 export function useUploadMultipleFiles() {
-    const mutation = useMutation({
-      mutationFn: async (args: {  formData: {
+  const mutation = useMutation({
+    mutationFn: async (args: {
+      formData: {
         images?: Array<Blob>
       }
-      type?: string}) => {
-        try {
-          const { formData, type } = args
-          const api = await getTrendHiveOpenApi()
-          const category = await api.trendHive.products.productsControllerUploadImages({
-            formData: formData
+      type?: string
+    }) => {
+      try {
+        const { formData, type } = args
+        const api = await getTrendHiveOpenApi()
+        const category = await api.trendHive.products.productsControllerUploadImages({
+          formData: formData,
         })
-          return category
-        } catch (error: any) {
-          throw new Error(error.message || 'Uploading files failed')
-        }
-      },
-      onSuccess: (data) => {
-        console.log('Uploading files successful', data)
-      },
-      onError: (error: Error) => {
-        console.error('Uploading files failed:', error.message)
-      },
-    })
-  
-    return mutation
-  }
-  
+        return category
+      } catch (error: any) {
+        throw new Error(error.message || 'Uploading files failed')
+      }
+    },
+    onSuccess: (data) => {
+      console.log('Uploading files successful', data)
+    },
+    onError: (error: Error) => {
+      console.error('Uploading files failed:', error.message)
+    },
+  })
+
+  return mutation
+}

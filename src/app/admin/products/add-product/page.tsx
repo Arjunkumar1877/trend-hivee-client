@@ -57,7 +57,7 @@ export default function AddProductForm() {
   const [hasUploadedImages, setHasUploadedImages] = useState(false)
   const cat = useGetCategories()
   const router = useRouter()
-  
+
   useEffect(() => {
     if (cat.data && cat.data.length > 0) return
     router.push('/admin/products/add-category')
@@ -77,12 +77,12 @@ export default function AddProductForm() {
         description: data.description,
         name: data.name,
         price: Number(data.price),
-        images: uploadedImageUrls
+        images: uploadedImageUrls,
       })
-      if(res) {
+      if (res) {
         toast.success('Product created successfully')
         router.push('/admin/products')
-      }else{
+      } else {
         toast.error('Product creation failed')
       }
     } catch (error) {
@@ -94,47 +94,47 @@ export default function AddProductForm() {
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files
     if (!files) return
-    
+
     const newPreviews: ImagePreview[] = []
-    
+
     for (let i = 0; i < files.length; i++) {
       const file = files[i]
       const reader = new FileReader()
-      
+
       reader.onloadend = () => {
         const newPreview = {
           id: `${Date.now()}-${i}`,
           url: reader.result as string,
-          file: file
+          file: file,
         }
-        
-        setImagePreviews(prev => [...prev, newPreview])
+
+        setImagePreviews((prev) => [...prev, newPreview])
       }
-      
+
       reader.readAsDataURL(file)
     }
 
-    const formData = new FormData();
-    Array.from(files).forEach(file => {
-      formData.append('files', file);
-    });
+    const formData = new FormData()
+    Array.from(files).forEach((file) => {
+      formData.append('files', file)
+    })
 
     const res = await uploadFiles.mutateAsync({
       formData: {
-        images: Array.from(files)
+        images: Array.from(files),
       },
-      type: 'product'
-    });
-    console.log(res);
-    const response = res as unknown as { imageUrls: string[] };
+      type: 'product',
+    })
+    console.log(res)
+    const response = res as unknown as { imageUrls: string[] }
     if (response && response.imageUrls) {
-      setUploadedImageUrls(prev => [...prev, ...response.imageUrls]);
-      setHasUploadedImages(true);
+      setUploadedImageUrls((prev) => [...prev, ...response.imageUrls])
+      setHasUploadedImages(true)
     }
   }
 
   const removeImage = (id: string) => {
-    setImagePreviews(prev => prev.filter(img => img.id !== id))
+    setImagePreviews((prev) => prev.filter((img) => img.id !== id))
   }
 
   const handleCategoryChange = (value: string) => {
@@ -199,7 +199,7 @@ export default function AddProductForm() {
                     {...register('price', {
                       required: 'Price is required',
                       min: { value: 0, message: 'Price must be greater than 0' },
-                      valueAsNumber: true
+                      valueAsNumber: true,
                     })}
                     className={cn(errors.price && 'border-red-500')}
                   />
@@ -333,4 +333,3 @@ export default function AddProductForm() {
     </div>
   )
 }
-

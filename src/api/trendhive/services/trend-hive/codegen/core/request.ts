@@ -306,11 +306,7 @@ export const request = <T>(
   options: ApiRequestOptions
 ): CancelablePromise<T> => {
   return new CancelablePromise(
-    async (
-      resolve: (arg0: any) => void,
-      reject: (arg0: unknown) => void,
-      onCancel: OnCancel
-    ) => {
+    async (resolve: (arg0: any) => void, reject: (arg0: unknown) => void, onCancel: OnCancel) => {
       try {
         const url = getUrl(config, options)
         const formData = getFormData(options)
