@@ -1,4 +1,4 @@
-import { getApi } from '@/api/trendhive/api'
+import { getApi, getTrendHiveOpenApi } from '@/api/trendhive/api'
 import { CreateProductDto } from '@/api/trendhive/services/trend-hive/codegen'
 import { useMutation } from '@tanstack/react-query'
 
@@ -6,7 +6,7 @@ export function useAddProducts() {
   const mutation = useMutation({
     mutationFn: async (args: CreateProductDto) => {
       try {
-        const api = await getApi()
+        const api = await getTrendHiveOpenApi()
         const adminCreds = api.trendHive.products.productsControllerCreate({
           requestBody: args,
         })

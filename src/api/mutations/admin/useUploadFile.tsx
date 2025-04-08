@@ -36,16 +36,15 @@ export function useUploadAFile() {
 export function useUploadMultipleFiles() {
     const mutation = useMutation({
       mutationFn: async (args: {  formData: {
-        files?: Array<Blob>
+        images?: Array<Blob>
       }
       type?: string}) => {
         try {
           const { formData, type } = args
           const api = await getTrendHiveOpenApi()
-          const category = await api.trendHive.app.appControllerUploadFiles({
-              formData: formData,
-              type: type
-          })
+          const category = await api.trendHive.products.productsControllerUploadImages({
+            formData: formData
+        })
           return category
         } catch (error: any) {
           throw new Error(error.message || 'Uploading files failed')

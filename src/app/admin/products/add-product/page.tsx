@@ -19,21 +19,27 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { ArrowLeft, Upload, Save, X } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import Image from 'next/image'
+import { useUploadMultipleFiles } from '@/api/mutations/admin/useUploadFile'
+import { useAddProducts } from '@/api/mutations/admin/useAddProducts'
+import { toast } from 'sonner'
 
 interface ProductFormData {
   name: string
   description: string
   price: number
   quantity: number
-  category: string
+  categoryId: number
   categoryName?: string
-  images: FileList
 }
 
 interface ImagePreview {
   id: string
   url: string
   file: File
+}
+
+interface UploadResponse {
+  imageUrls: string[]
 }
 
 export default function AddProductForm() {
@@ -47,6 +53,8 @@ export default function AddProductForm() {
   } = useForm<ProductFormData>()
 
   const [imagePreviews, setImagePreviews] = useState<ImagePreview[]>([])
+  const [uploadedImageUrls, setUploadedImageUrls] = useState<string[]>([])
+  const [hasUploadedImages, setHasUploadedImages] = useState(false)
   const cat = useGetCategories()
   const router = useRouter()
   
@@ -55,18 +63,35 @@ export default function AddProductForm() {
     router.push('/admin/products/add-category')
   }, [cat.data, router])
 
+  const addProducts = useAddProducts()
   const onSubmit = async (data: ProductFormData) => {
     try {
-      // TODO: Add your API call here to create the product
+      if (!hasUploadedImages) {
+        alert('Please upload at least one image')
+        return
+      }
       console.log(data)
-      await new Promise((resolve) => setTimeout(resolve, 1000)) // Simulate API call
-      router.push('/admin/products')
+      const res = await addProducts.mutateAsync({
+        availableQuantity: data.quantity,
+        categoryId: data.categoryId,
+        description: data.description,
+        name: data.name,
+        price: Number(data.price),
+        images: uploadedImageUrls
+      })
+      if(res) {
+        toast.success('Product created successfully')
+        router.push('/admin/products')
+      }else{
+        toast.error('Product creation failed')
+      }
     } catch (error) {
       console.error('Error creating product:', error)
     }
   }
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const uploadFiles = useUploadMultipleFiles()
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files
     if (!files) return
     
@@ -88,6 +113,24 @@ export default function AddProductForm() {
       
       reader.readAsDataURL(file)
     }
+
+    const formData = new FormData();
+    Array.from(files).forEach(file => {
+      formData.append('files', file);
+    });
+
+    const res = await uploadFiles.mutateAsync({
+      formData: {
+        images: Array.from(files)
+      },
+      type: 'product'
+    });
+    console.log(res);
+    const response = res as unknown as { imageUrls: string[] };
+    if (response && response.imageUrls) {
+      setUploadedImageUrls(prev => [...prev, ...response.imageUrls]);
+      setHasUploadedImages(true);
+    }
   }
 
   const removeImage = (id: string) => {
@@ -97,7 +140,7 @@ export default function AddProductForm() {
   const handleCategoryChange = (value: string) => {
     const selectedCategory = cat.data?.find((category: any) => category.id === value)
     if (selectedCategory) {
-      setValue('category', value)
+      setValue('categoryId', parseInt(value))
       setValue('categoryName', selectedCategory.name as unknown as string)
     }
   }
@@ -156,6 +199,7 @@ export default function AddProductForm() {
                     {...register('price', {
                       required: 'Price is required',
                       min: { value: 0, message: 'Price must be greater than 0' },
+                      valueAsNumber: true
                     })}
                     className={cn(errors.price && 'border-red-500')}
                   />
@@ -186,15 +230,15 @@ export default function AddProductForm() {
                 <div className="space-y-2">
                   <Label htmlFor="category">Category</Label>
                   <Controller
-                    name="category"
+                    name="categoryId"
                     control={control}
                     rules={{ required: 'Category is required' }}
                     render={({ field }) => (
                       <Select
                         onValueChange={(value) => handleCategoryChange(value)}
-                        value={field.value}
+                        value={field.value?.toString()}
                       >
-                        <SelectTrigger className={cn(errors.category && 'border-red-500')}>
+                        <SelectTrigger className={cn(errors.categoryId && 'border-red-500')}>
                           <SelectValue placeholder="Select a category">
                             {watch('categoryName') || 'Select a category'}
                           </SelectValue>
@@ -209,8 +253,8 @@ export default function AddProductForm() {
                       </Select>
                     )}
                   />
-                  {errors.category && (
-                    <span className="text-red-500 text-sm">{errors.category.message}</span>
+                  {errors.categoryId && (
+                    <span className="text-red-500 text-sm">{errors.categoryId.message}</span>
                   )}
                 </div>
               </div>
@@ -258,7 +302,6 @@ export default function AddProductForm() {
                               accept="image/*"
                               multiple
                               className="sr-only"
-                              {...register('images', { required: 'At least one image is required' })}
                               onChange={handleImageChange}
                             />
                           </label>
@@ -268,8 +311,8 @@ export default function AddProductForm() {
                       </div>
                     )}
                   </div>
-                  {errors.images && (
-                    <span className="text-red-500 text-sm">{errors.images.message}</span>
+                  {!hasUploadedImages && (
+                    <span className="text-red-500 text-sm">At least one image is required</span>
                   )}
                 </div>
               </div>

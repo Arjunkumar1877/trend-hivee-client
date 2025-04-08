@@ -1,6 +1,18 @@
 {
   "components": {
     "schemas": {
+      "AddImagesToProductDto": {
+        "properties": {
+          "imageUrls": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          }
+        },
+        "required": ["imageUrls"],
+        "type": "object"
+      },
       "AdminLoginDto": {
         "properties": {
           "email": {
@@ -653,6 +665,48 @@
         "tags": ["products"]
       }
     },
+    "/products/upload-images": {
+      "post": {
+        "operationId": "ProductsController_uploadImages",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "properties": {
+                  "images": {
+                    "items": {
+                      "format": "binary",
+                      "type": "string"
+                    },
+                    "type": "array"
+                  }
+                },
+                "type": "object"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Images uploaded successfully"
+          }
+        },
+        "summary": "Upload product images",
+        "tags": ["products"]
+      }
+    },
     "/products/{id}": {
       "delete": {
         "operationId": "ProductsController_remove",
@@ -736,6 +790,45 @@
           }
         },
         "summary": "Update a product",
+        "tags": ["products"]
+      }
+    },
+    "/products/{id}/images": {
+      "post": {
+        "operationId": "ProductsController_addImagesToProduct",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "number"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddImagesToProductDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Product"
+                }
+              }
+            },
+            "description": "Images added to product successfully"
+          }
+        },
+        "summary": "Add images to an existing product",
         "tags": ["products"]
       }
     },
