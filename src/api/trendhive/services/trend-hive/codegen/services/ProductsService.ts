@@ -2,6 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
+import type { AddImagesToProductDto } from '../models/AddImagesToProductDto'
 import type { CreateProductDto } from '../models/CreateProductDto'
 import type { Product } from '../models/Product'
 import type { UpdateProductDto } from '../models/UpdateProductDto'
@@ -35,6 +36,25 @@ export class ProductsService {
       url: '/products',
       body: requestBody,
       mediaType: 'application/json',
+    })
+  }
+  /**
+   * Upload product images
+   * @returns string Images uploaded successfully
+   * @throws ApiError
+   */
+  public productsControllerUploadImages({
+    formData,
+  }: {
+    formData: {
+      images?: Array<Blob>
+    }
+  }): CancelablePromise<Array<string>> {
+    return this.httpRequest.request({
+      method: 'POST',
+      url: '/products/upload-images',
+      formData: formData,
+      mediaType: 'multipart/form-data',
     })
   }
   /**
@@ -80,6 +100,28 @@ export class ProductsService {
     return this.httpRequest.request({
       method: 'PATCH',
       url: '/products/{id}',
+      path: {
+        id: id,
+      },
+      body: requestBody,
+      mediaType: 'application/json',
+    })
+  }
+  /**
+   * Add images to an existing product
+   * @returns Product Images added to product successfully
+   * @throws ApiError
+   */
+  public productsControllerAddImagesToProduct({
+    id,
+    requestBody,
+  }: {
+    id: number
+    requestBody: AddImagesToProductDto
+  }): CancelablePromise<Product> {
+    return this.httpRequest.request({
+      method: 'POST',
+      url: '/products/{id}/images',
       path: {
         id: id,
       },

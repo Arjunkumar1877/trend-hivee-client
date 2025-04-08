@@ -306,18 +306,14 @@ export const request = <T>(
   options: ApiRequestOptions
 ): CancelablePromise<T> => {
   return new CancelablePromise(
-    async (
-      resolve: (arg0: any) => void,
-      reject: (arg0: unknown) => void,
-      onCancel: { isCancelled: any }
-    ) => {
+    async (resolve: (arg0: any) => void, reject: (arg0: unknown) => void, onCancel: OnCancel) => {
       try {
         const url = getUrl(config, options)
         const formData = getFormData(options)
         const body = getRequestBody(options)
         const headers = await getHeaders(config, options)
 
-        if (!onCancel) {
+        if (!onCancel.isCancelled) {
           const response = await sendRequest(
             config,
             options,

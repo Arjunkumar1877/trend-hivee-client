@@ -16,4 +16,50 @@ export class AppService {
       url: '/',
     })
   }
+  /**
+   * @returns any
+   * @throws ApiError
+   */
+  public appControllerUploadFile({
+    formData,
+    type,
+  }: {
+    formData: {
+      file?: Blob
+    }
+    type?: string
+  }): CancelablePromise<any> {
+    return this.httpRequest.request({
+      method: 'POST',
+      url: '/upload',
+      query: {
+        type: type,
+      },
+      formData: formData,
+      mediaType: 'multipart/form-data',
+    })
+  }
+  /**
+   * @returns any
+   * @throws ApiError
+   */
+  public appControllerUploadFiles({
+    formData,
+    type,
+  }: {
+    formData: {
+      files?: Array<Blob>
+    }
+    type?: string
+  }): CancelablePromise<any> {
+    return this.httpRequest.request({
+      method: 'POST',
+      url: '/upload-multiple',
+      query: {
+        type: type,
+      },
+      formData: formData,
+      mediaType: 'multipart/form-data',
+    })
+  }
 }

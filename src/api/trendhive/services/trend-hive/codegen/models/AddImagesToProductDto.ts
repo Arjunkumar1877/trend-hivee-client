@@ -2,6 +2,6 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-export type Category = {
-  name: unknown
+export type AddImagesToProductDto = {
+  imageUrls: Array<string>
 }
