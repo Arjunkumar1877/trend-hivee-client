@@ -6,84 +6,41 @@ import { useRouter } from 'next/navigation'
 import { Plus, Search, Filter, Edit, Trash2, Package } from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
-
-const products = [
-  {
-    id: 1,
-    name: 'Product 1',
-    price: '$29.99',
-    description: 'A great product that you will love.',
-    image: '/images/home/featured/1.png',
-    category: 'Electronics',
-    stock: 15,
-    status: 'In Stock',
-  },
-  {
-    id: 2,
-    name: 'Product 2',
-    price: '$39.99',
-    description: 'High quality and reliable.',
-    image: '/images/home/featured/2.png',
-    category: 'Clothing',
-    stock: 8,
-    status: 'Low Stock',
-  },
-  {
-    id: 3,
-    name: 'Product 3',
-    price: '$19.99',
-    description: 'Affordable and functional.',
-    image: '/images/home/featured/3.png',
-    category: 'Accessories',
-    stock: 0,
-    status: 'Out of Stock',
-  },
-  {
-    id: 4,
-    name: 'Product 4',
-    price: '$29.99',
-    description: 'A great product that you will love.',
-    image: '/images/home/featured/1.png',
-    category: 'Electronics',
-    stock: 20,
-    status: 'In Stock',
-  },
-  {
-    id: 5,
-    name: 'Product 5',
-    price: '$39.99',
-    description: 'High quality and reliable.',
-    image: '/images/home/featured/2.png',
-    category: 'Clothing',
-    stock: 12,
-    status: 'In Stock',
-  },
-  {
-    id: 6,
-    name: 'Product 6',
-    price: '$19.99',
-    description: 'Affordable and functional.',
-    image: '/images/home/featured/3.png',
-    category: 'Accessories',
-    stock: 5,
-    status: 'Low Stock',
-  },
-]
+import { useGetAllProducts } from '@/api/query/admin/useGetAllProducts'
+import { Skeleton } from '@/components/ui/skeleton'
 
 export default function AdminProductsPage() {
   const router = useRouter()
+  const { data: products, isLoading, error } = useGetAllProducts()
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'In Stock':
-        return 'bg-green-100 text-green-800'
-      case 'Low Stock':
-        return 'bg-yellow-100 text-yellow-800'
-      case 'Out of Stock':
-        return 'bg-red-100 text-red-800'
-      default:
-        return 'bg-gray-100 text-gray-800'
+  const getStatusColor = (stock: number) => {
+    if (stock > 10) {
+      return 'bg-green-100 text-green-800'
+    } else if (stock > 0) {
+      return 'bg-yellow-100 text-yellow-800'
+    } else {
+      return 'bg-red-100 text-red-800'
     }
+  }
+
+  const getStatusText = (stock: number) => {
+    if (stock > 10) {
+      return 'In Stock'
+    } else if (stock > 0) {
+      return 'Low Stock'
+    } else {
+      return 'Out of Stock'
+    }
+  }
+
+  if (error) {
+    return (
+      <div className="p-6 max-w-7xl mx-auto">
+        <div className="flex items-center justify-center h-64">
+          <p className="text-red-500">Error loading products: {error.message}</p>
+        </div>
+      </div>
+    )
   }
 
   return (
@@ -127,55 +84,89 @@ export default function AdminProductsPage() {
 
         {/* Products Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {products.map((product) => (
-            <Card
-              key={product.id}
-              className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300"
-            >
-              <CardHeader className="p-0">
-                <div className="relative h-48">
-                  <Image src={product.image} alt={product.name} fill className="object-cover" />
-                  <Badge className={`absolute top-2 right-2 ${getStatusColor(product.status)}`}>
-                    {product.status}
-                  </Badge>
-                </div>
-              </CardHeader>
-              <CardContent className="p-4">
-                <div className="space-y-2">
-                  <h2 className="text-xl font-semibold text-gray-800">{product.name}</h2>
-                  <p className="text-sm text-gray-600 line-clamp-2">{product.description}</p>
-                  <div className="flex justify-between items-center">
-                    <span className="text-lg font-bold text-gray-900">{product.price}</span>
-                    <Badge variant="outline" className="text-sm">
-                      Stock: {product.stock}
+          {isLoading ? (
+            // Loading skeletons
+            Array.from({ length: 6 }).map((_, index) => (
+              <Card key={index} className="overflow-hidden shadow-lg">
+                <CardHeader className="p-0">
+                  <Skeleton className="h-48 w-full" />
+                </CardHeader>
+                <CardContent className="p-4">
+                  <div className="space-y-2">
+                    <Skeleton className="h-6 w-3/4" />
+                    <Skeleton className="h-4 w-full" />
+                    <Skeleton className="h-4 w-1/2" />
+                  </div>
+                </CardContent>
+                <CardFooter className="p-4 pt-0 flex gap-2">
+                  <Skeleton className="h-10 flex-1" />
+                  <Skeleton className="h-10 flex-1" />
+                </CardFooter>
+              </Card>
+            ))
+          ) : (
+            products?.map((product) => (
+              <Card
+                key={product.id}
+                className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300"
+              >
+                <CardHeader className="p-0">
+                  <div className="relative h-48">
+                    {product.images?.[0]?.image ? (
+                      <Image
+                        src={product.images[0]?.image}
+                        alt={product.name}
+                        fill
+                        className="object-cover"
+                        priority
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-gray-100 flex items-center justify-center">
+                        <Package className="h-12 w-12 text-gray-400" />
+                      </div>
+                    )}
+                    <Badge className={`absolute top-2 right-2 ${getStatusColor(product.availableQuantity)}`}>
+                      {getStatusText(product.availableQuantity)}
                     </Badge>
                   </div>
-                  <Badge variant="secondary" className="text-sm">
-                    {product.category}
-                  </Badge>
-                </div>
-              </CardContent>
-              <CardFooter className="p-4 pt-0 flex gap-2">
-                <Button
-                  className="flex-1 bg-blue-600 hover:bg-blue-700 text-white gap-2"
-                  onClick={() => router.push(`/admin/products/edit/${product.id}`)}
-                >
-                  <Edit className="h-4 w-4" />
-                  Edit
-                </Button>
-                <Button
-                  className="flex-1 bg-red-600 hover:bg-red-700 text-white gap-2"
-                  onClick={() => {
-                    // Add delete confirmation logic here
-                    console.log('Delete product:', product.id)
-                  }}
-                >
-                  <Trash2 className="h-4 w-4" />
-                  Delete
-                </Button>
-              </CardFooter>
-            </Card>
-          ))}
+                </CardHeader>
+                <CardContent className="p-4">
+                  <div className="space-y-2">
+                    <h2 className="text-xl font-semibold text-gray-800">{product.name}</h2>
+                    <p className="text-sm text-gray-600 line-clamp-2">{product.description}</p>
+                    <div className="flex justify-between items-center">
+                      <span className="text-lg font-bold text-gray-900">${product.price}</span>
+                      <Badge variant="outline" className="text-sm">
+                        Stock: {product.availableQuantity}
+                      </Badge>
+                    </div>
+                    <Badge variant="secondary" className="text-sm">
+                      Category: {product.categoryId}
+                    </Badge>
+                  </div>
+                </CardContent>
+                <CardFooter className="p-4 pt-0 flex gap-2">
+                  <Button
+                    className="flex-1 bg-blue-600 hover:bg-blue-700 text-white gap-2"
+                    onClick={() => router.push(`/admin/products/edit/${product.id}`)}
+                  >
+                    <Edit className="h-4 w-4" />
+                    Edit
+                  </Button>
+                  <Button
+                    className="flex-1 bg-red-600 hover:bg-red-700 text-white gap-2"
+                    onClick={() => {
+                      // Add delete confirmation logic here
+                      console.log('Delete product:', product.id)
+                    }}
+                  >
+                    <Trash2 className="h-4 w-4" />
+                    Delete
+                  </Button>
+                </CardFooter>
+              </Card>
+            ))
+          )}
         </div>
       </div>
     </div>
