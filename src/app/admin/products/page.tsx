@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
 import { useGetAllProducts } from '@/api/query/admin/useGetAllProducts'
 import { Skeleton } from '@/components/ui/skeleton'
+import { URLS } from '@/lib/urls'
 
 export default function AdminProductsPage() {
   const router = useRouter()
@@ -148,7 +149,8 @@ export default function AdminProductsPage() {
                 <CardFooter className="p-4 pt-0 flex gap-2">
                   <Button
                     className="flex-1 bg-blue-600 hover:bg-blue-700 text-white gap-2"
-                    onClick={() => router.push(`/admin/products/edit/${product.id}`)}
+                    onClick={() =>                      router.push(URLS.getAdminEditProductsPage(String(product.id)))
+                    }
                   >
                     <Edit className="h-4 w-4" />
                     Edit
