@@ -24,6 +24,7 @@ import { useAddProducts } from '@/api/mutations/admin/useAddProducts'
 import { toast } from 'sonner'
 import { useGetAProduct } from '@/api/query/admin/useGetAProduct'
 import { Product } from '@/api/trendhive/services/trend-hive/codegen/models/Product'
+import { useEditProduct } from '@/api/mutations/admin/useEditProduct'
 
 interface ProductFormData {
   name: string
@@ -86,47 +87,48 @@ export default function EditProductForm() {
 
   const [imagePreviews, setImagePreviews] = useState<ImagePreview[]>([])
   const [uploadedImageUrls, setUploadedImageUrls] = useState<string[]>([])
+  const [removedImageIds, setRemovedImageIds] = useState<number[]>([])
   const [hasUploadedImages, setHasUploadedImages] = useState(false)
   const cat = useGetCategories()
   const router = useRouter()
 
   useEffect(() => {
     if (productData?.images) {
-      const existingImages = productData.images.map((img: any) => ({
+      const existingImages = productData.images.map((img) => ({
         id: img.id.toString(),
         url: img.image,
         file: null as unknown as File
       }))
       setImagePreviews(existingImages)
-      setUploadedImageUrls(productData.images.map((img: any) => img.image))
+      setUploadedImageUrls(productData.images.map((img) => img.image))
       setHasUploadedImages(true)
     }
   }, [productData])
 
-  const addProducts = useAddProducts()
+  const editProducts = useEditProduct()
   const onSubmit = async (data: ProductFormData) => {
     try {
-      if (!hasUploadedImages) {
-        alert('Please upload at least one image')
-        return
-      }
       console.log(data)
-      const res = await addProducts.mutateAsync({
-        availableQuantity: data.quantity,
-        categoryId: data.categoryId,
-        description: data.description,
-        name: data.name,
-        price: Number(data.price),
-        images: uploadedImageUrls,
+      const res = await editProducts.mutateAsync({
+        id: productId as unknown as number,
+        data: {
+          availableQuantity: data.quantity,
+          categoryId: data.categoryId,
+          description: data.description,
+          name: data.name,
+          price: Number(data.price),
+          images: uploadedImageUrls
+        }
       })
       if (res) {
-        toast.success('Product created successfully')
+        toast.success('Product updated successfully')
         router.push('/admin/products')
       } else {
-        toast.error('Product creation failed')
+        toast.error('Product update failed')
       }
     } catch (error) {
-      console.error('Error creating product:', error)
+      console.error('Error updating product:', error)
+      toast.error('Failed to update product')
     }
   }
 
@@ -174,7 +176,15 @@ export default function EditProductForm() {
   }
 
   const removeImage = (id: string) => {
-    setImagePreviews((prev) => prev.filter((img) => img.id !== id))
+    const imageToRemove = productData?.images.find(img => img.id.toString() === id)
+    if (imageToRemove) {
+      setRemovedImageIds(prev => [...prev, imageToRemove.id])
+    }
+    setImagePreviews(prev => prev.filter(img => img.id !== id))
+    setUploadedImageUrls(prev => prev.filter(url => {
+      const image = productData?.images.find(img => img.id.toString() === id)
+      return image ? url !== image.image : true
+    }))
   }
 
   const handleCategoryChange = (value: string) => {
@@ -383,7 +393,7 @@ export default function EditProductForm() {
                   </Button>
                   <Button type="submit" disabled={isSubmitting} className="gap-2">
                     <Save className="h-4 w-4" />
-                    {isSubmitting ? 'Creating...' : 'Create Product'}
+                    {isSubmitting ? 'Updating...' : 'Update Product'}
                   </Button>
                 </div>
               </form>

@@ -3,7 +3,7 @@
 
 export const URLS = {
     getAdminEditProductsPage(id: string){
-        return `/admin/products/${id}/edit-products`
+        return `/admin/products/${id}/edit-product`
     },
-    
+
 }
