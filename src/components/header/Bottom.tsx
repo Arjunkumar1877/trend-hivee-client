@@ -4,6 +4,7 @@ import { Menubar, MenubarMenu } from '@/components/ui/menubar'
 import Link from 'next/link'
 import { FiUser, FiHeart, FiSearch, FiShoppingCart, FiMenu } from 'react-icons/fi'
 import { usePathname, useRouter } from 'next/navigation'
+import { URLS } from '@/lib/urls'
 
 const Bottom = () => {
   const [showSideNav, setShowSideNav] = useState<boolean>(false)
@@ -49,13 +50,13 @@ const Bottom = () => {
         {/* Desktop Navigation Links */}
         <div className="gap-10 hidden md:flex">
           {[
-            { label: 'Home', href: '/' },
-            { label: 'New Arrival', href: '/products' },
-            { label: 'Trending', href: '/trending' },
-            { label: 'About Us', href: '/aboutus' },
-            { label: 'Contact Us', href: '/contactus' },
-            { label: 'Login', href: '/login' },
-            { label: 'Signup', href: '/signup' },
+            { label: 'Home', href: URLS.getHomePage() },
+            { label: 'New Arrival', href: URLS.getProductsPage() },
+            { label: 'Trending', href: URLS.getProductsPage() },
+            { label: 'About Us', href: URLS.getAboutPage() },
+            { label: 'Contact Us', href: URLS.getContactPage() },
+            { label: 'Login', href: URLS.getLoginPage() },
+            { label: 'Signup', href: URLS.getSignupPage() },
           ].map((item) => (
             <MenubarMenu key={item.href}>
               <Link href={item.href} className="text-white hover:text-gray-300 transition-colors">
@@ -71,7 +72,7 @@ const Bottom = () => {
           <FiUser className="text-white hover:text-gray-300 cursor-pointer hidden md:block" />
           <FiHeart className="text-white hover:text-gray-300 cursor-pointer hidden md:block" />
           <FiShoppingCart
-            onClick={() => router.push('/cart')}
+            onClick={() => router.push( URLS.getCartPage())}
             className="text-white hover:text-gray-300 cursor-pointer hidden md:block"
           />
 
@@ -94,13 +95,13 @@ const Bottom = () => {
           {/* Navigation Links */}
           <div className="flex flex-col gap-6">
             {[
-              { label: 'Home', href: '/' },
-              { label: 'New Arrival', href: '/products' },
-              { label: 'Trending', href: '/trending' },
-              { label: 'About Us', href: '/aboutus' },
-              { label: 'Contact Us', href: '/contactus' },
-              { label: 'Login', href: '/login' },
-              { label: 'Signup', href: '/signup' },
+              { label: 'Home', href: URLS.getHomePage() },
+              { label: 'New Arrival', href: URLS.getProductsPage() },
+              { label: 'Trending', href: URLS.getProductsPage()},
+              { label: 'About Us', href: URLS.getAboutPage() },
+              { label: 'Contact Us', href: URLS.getContactPage() },
+              { label: 'Login', href: URLS.getLoginPage() },
+              { label: 'Signup', href: URLS.getSignupPage()},
             ].map((item) => (
               <MenubarMenu key={item.href}>
                 <Link href={item.href} className="text-white hover:text-gray-300 transition-colors">
