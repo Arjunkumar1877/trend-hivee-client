@@ -57,8 +57,8 @@ const Bottom = () => {
             { label: 'Contact Us', href: URLS.getContactPage() },
             { label: 'Login', href: URLS.getLoginPage() },
             { label: 'Signup', href: URLS.getSignupPage() },
-          ].map((item) => (
-            <MenubarMenu key={item.href}>
+          ].map((item, i) => (
+            <MenubarMenu key={i}>
               <Link href={item.href} className="text-white hover:text-gray-300 transition-colors">
                 {item.label}
               </Link>
@@ -102,8 +102,8 @@ const Bottom = () => {
               { label: 'Contact Us', href: URLS.getContactPage() },
               { label: 'Login', href: URLS.getLoginPage() },
               { label: 'Signup', href: URLS.getSignupPage()},
-            ].map((item) => (
-              <MenubarMenu key={item.href}>
+            ].map((item, i) => (
+              <MenubarMenu key={i}>
                 <Link href={item.href} className="text-white hover:text-gray-300 transition-colors">
                   {item.label}
                 </Link>
